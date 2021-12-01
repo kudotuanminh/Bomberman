@@ -3,8 +3,12 @@ package com.ntm.bomberman;
 import java.io.*;
 import java.util.*;
 
+import com.ntm.bomberman.input.Direction;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -23,7 +27,10 @@ public class BombermanGame extends Application {
 
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
+    private static List<Entity> entities = new ArrayList<>();
+    private static List<Entity> friendlyEntities = new ArrayList<>();
+
+    private Bomber bomberman;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -31,14 +38,38 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) {
+        VBox root = new VBox();
         createMap();
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH,
                 Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
+        canvas.requestFocus();
+        canvas.setFocusTraversable(true);
+        canvas.setOnKeyPressed(( KeyEvent event ) -> {
+            if (event.getCode() == KeyCode.RIGHT) {
+                bomberman.setDirection(Direction.RIGHT);
+            }
+            if (event.getCode() == KeyCode.LEFT) {
+                bomberman.setDirection(Direction.LEFT);
+            }
+            if (event.getCode() == KeyCode.UP) {
+                bomberman.setDirection(Direction.UP);
+            }
+            if (event.getCode() == KeyCode.DOWN) {
+                bomberman.setDirection(Direction.DOWN);
+            }
+            /*if (event.getCode() == KeyCode.SPACE && bomb == null) { //  && bomberman.isAlive()
+                bomb = new Bom(bomberman.getX() / Sprite.SCALED_SIZE ,
+                        bomberman.getY() / Sprite.SCALED_SIZE ,
+                        Sprite.bomb.getFxImage());
+
+            }*/
+        });
+
         // Tao root container
-        Group root = new Group();
+        //Group root = new Group();
         root.getChildren().add(canvas);
 
         // Tao scene
@@ -56,15 +87,18 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
+
     }
 
     public void createMap() {
         try {
+
             BufferedReader fileReader =
                     new BufferedReader(new InputStreamReader(
                             new FileInputStream(
                                     "./src/resources/levels/Level1.txt"),
                             "UTF-8"));
+
 
             String line;
             line = fileReader.readLine();
@@ -79,12 +113,20 @@ public class BombermanGame extends Application {
             while ((line = fileReader.readLine()) != null) {
                 n++;
                 for (int i = 0; i < line.length(); i++) {
+                    if (line.charAt(i) == '#') {
+                        friendlyEntities.add(new Wall(i , n , Sprites.wall.getFxImage()));
+                    } else {
+                        friendlyEntities.add(new Grass(i , n , Sprites.grass.getFxImage()));
+                    }
+                }
+                for (int i = 0; i < line.length(); i++) {
                     char c = line.charAt(i);
-                    entities.add(new Grass(i, n, Sprites.grass.getFxImage()));
+                    //entities.add(new Grass(i, n, Sprites.grass.getFxImage()));
                     switch (c) {
                         case 'p': // bomber
-                            entities.add(new Bomber(i, n,
-                                    Sprites.player_right.getFxImage()));
+                            bomberman = new Bomber(i, n,
+                                    Sprites.player_right.getFxImage());
+                            entities.add(bomberman);
                             break;
                         // objects
                         case '#': // wall
@@ -121,11 +163,36 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
-        entities.forEach(Entity::update);
+        //entities.forEach(Entity::update);
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity = entities.get(i);
+           entity.update();
+           if (entity.isRemoved()) {
+                entities.remove(i);
+            }
+        }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        friendlyEntities.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
+    }
+
+    public static Entity getEntity(int x, int y) {
+        for (Entity entity : entities) {
+            if (entity.compareCoordinate(x, y)) return entity;
+        }
+        for (Entity entity : friendlyEntities) {
+            if (entity.compareCoordinate(x , y)) return entity;
+        }
+        return null;
+    }
+
+    public static Entity getEnemy(int x, int y) {
+        for (Entity entity : entities) {
+            if (entity.compareCoordinate(x, y) /*&& !(entity instanceof Bomber)*/) return entity;
+        }
+        return null;
     }
 }
