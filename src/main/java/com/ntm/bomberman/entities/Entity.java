@@ -8,12 +8,17 @@ import com.ntm.bomberman.graphics.*;
 /** Held logics for every entities of the game. */
 public abstract class Entity {
     /** @param x - x coordinate of the entity. */
-    protected int  x;
+    protected int x;
     /** @param y - y coordinate of the entity. */
     protected int y;
     /** @param img - image of the entity. */
     protected Image img;
     protected boolean isRemoved = false;
+
+    public Entity(int x, int y) {
+        this.x = x * Sprite.SCALED_SIZE;
+        this.y = y * Sprite.SCALED_SIZE;
+    }
 
     /**
      * Constructor function that takes 2 intergers and an image.
