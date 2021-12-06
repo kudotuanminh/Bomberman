@@ -6,7 +6,15 @@ import com.ntm.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
 public abstract class MovingEntity extends AnimatedEntity {
-    protected int speed = Sprite.SCALED_SIZE;
+    public int speed = Sprite.SCALED_SIZE;
+
+    public void setSpeed(int speed) {
+        this.speed = Sprite.SCALED_SIZE;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
 
     public MovingEntity(int x, int y, Image img) {
         super(x, y, img);

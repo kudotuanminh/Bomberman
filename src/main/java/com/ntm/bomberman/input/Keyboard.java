@@ -1,6 +1,7 @@
 package com.ntm.bomberman.input;
 
 import com.ntm.bomberman.entities.movingEntities.Bomber;
+import com.ntm.bomberman.sound.Sound;
 import javafx.scene.input.*;
 
 public class Keyboard {

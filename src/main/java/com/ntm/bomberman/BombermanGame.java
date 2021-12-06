@@ -3,6 +3,7 @@ package com.ntm.bomberman;
 import java.io.*;
 import java.util.*;
 
+import com.ntm.bomberman.entities.items.SpeedItem;
 import com.ntm.bomberman.input.Keyboard;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import com.ntm.bomberman.entities.bomb.*;
 import com.ntm.bomberman.entities.objects.*;
 import com.ntm.bomberman.entities.movingEntities.*;
 import com.ntm.bomberman.entities.movingEntities.enemies.*;
+import com.ntm.bomberman.sound.Sound;
 // import com.ntm.bomberman.entities.items.*;
 
 
@@ -31,6 +33,7 @@ public class BombermanGame extends Application {
     private static List<Entity> friendlyEntities = new ArrayList<>();
     private static List<Entity> explosions = new ArrayList<>();
     private static List<Bomb> bombs = new ArrayList<>();
+    private static int  speedItem = 0;
 
     private Bomber bomberman;
 
@@ -72,7 +75,7 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
-
+        Sound.play("sounds/howlingabyss_ingame.wav");
     }
 
     public void createMap() {
@@ -121,10 +124,17 @@ public class BombermanGame extends Application {
                             entities.add(
                                     new Wall(i, n, Sprites.wall.getFxImage()));
                             break;
-                        case '*': // brick
+                        case '*': {// brick
+                            if (speedItem == 0) {
+                                entities.add(new SpeedItem(i -1 , n,
+                                        Sprites.powerup_speed.getFxImage()));
+                                speedItem = 1;
+                            }
                             entities.add(new Brick(i, n,
                                     Sprites.brick.getFxImage()));
+                        }
                             break;
+
                         // items
                         case 'x': // portals
                             entities.add(new Portal(i, n,
@@ -218,6 +228,7 @@ public class BombermanGame extends Application {
 
     public static void addBomb(Bomb bomb) {
         bombs.add(bomb);
+        //Sound.play("sound/bomset.wav");
     }
 
     // public static void bombExplode(List<Entity> exs) {

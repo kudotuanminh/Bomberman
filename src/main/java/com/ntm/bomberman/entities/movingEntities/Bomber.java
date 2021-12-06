@@ -5,6 +5,7 @@ import com.ntm.bomberman.entities.Entity;
 import com.ntm.bomberman.entities.bomb.Bomb;
 import com.ntm.bomberman.graphics.*;
 import com.ntm.bomberman.input.Direction;
+import com.ntm.bomberman.sound.Sound;
 import javafx.scene.image.Image;
 
 /**
@@ -26,6 +27,7 @@ public class Bomber extends MovingEntity {
      */
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
+        this.setSpeed(1);
     }
 
     @Override
@@ -61,6 +63,7 @@ public class Bomber extends MovingEntity {
             }
         }
         direction = Direction.NONE;
+        Sound.play("sounds/move.wav");
     }
 
     private boolean isCanMove(int x, int y) {
