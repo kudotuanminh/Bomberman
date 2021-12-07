@@ -177,6 +177,28 @@ public class Sprites {
     public static Sprite kondoria_dead =
             new Sprite(Sprite.DEFAULT_SIZE, 10, 8, SpriteSheet.tiles, 16, 16);
 
+    // Kondoria
+    //
+    // Contain: kondoria_left_1, kondoria_left_2, kondoria_left_3,
+    // kondoria_right_1, kondoria_right_2, kondoria_right_3,
+    // kondoria_dead.
+    public static Sprite ovape_left_1 =
+            new Sprite(Sprite.DEFAULT_SIZE, 6, 5, SpriteSheet.tiles, 16, 16);
+    public static Sprite ovape_left_2 =
+            new Sprite(Sprite.DEFAULT_SIZE, 6, 6, SpriteSheet.tiles, 16, 16);
+    public static Sprite ovape_left_3 =
+            new Sprite(Sprite.DEFAULT_SIZE, 6, 7, SpriteSheet.tiles, 16, 16);
+
+    public static Sprite ovape_right_1 =
+            new Sprite(Sprite.DEFAULT_SIZE, 7, 5, SpriteSheet.tiles, 16, 16);
+    public static Sprite ovape_right_2 =
+            new Sprite(Sprite.DEFAULT_SIZE, 7, 6, SpriteSheet.tiles, 16, 16);
+    public static Sprite ovape_right_3 =
+            new Sprite(Sprite.DEFAULT_SIZE, 7, 7, SpriteSheet.tiles, 16, 16);
+
+    public static Sprite ovape_dead =
+            new Sprite(Sprite.DEFAULT_SIZE, 6, 8, SpriteSheet.tiles, 16, 16);
+
     /** Bomb sprites. */
     //
     // Contain: bomb, bomb_1, bomb_2.

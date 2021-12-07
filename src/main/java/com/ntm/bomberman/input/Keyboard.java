@@ -19,6 +19,7 @@ public class Keyboard {
             bomber.setDirection(Direction.DOWN);
         }
         if (event.getCode() == KeyCode.SPACE) {
+           // Sound.play("sound/bombset.wav");
             bomber.setBomb();
         }
     }

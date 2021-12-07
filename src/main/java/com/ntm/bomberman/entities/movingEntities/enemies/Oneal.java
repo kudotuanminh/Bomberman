@@ -41,13 +41,13 @@ public class Oneal extends Enemies {
             case 1: // left
                 if (isCanMove(x - speed, y)) {
                     x -= speed;
-                    img = Sprites.oneal_left_1.getFxImage();
+                    img = Sprites.oneal_left_2.getFxImage();
                 }
                 break;
             case 2: // up
                 if (isCanMove(x, y - speed)) {
                     y -= speed;
-                    img = Sprites.oneal_left_1.getFxImage();
+                    img = Sprites.oneal_left_3.getFxImage();
                 }
                 break;
             case 3: // down
@@ -62,7 +62,7 @@ public class Oneal extends Enemies {
     private boolean isCanMove(int x, int y) {
         Entity entity = BombermanGame.getEntity(x, y);
         if (entity instanceof Enemies)
-            return false;
+            return true;
         if (entity == null)
             return true;
         return this.collide(entity);

@@ -151,6 +151,14 @@ public class BombermanGame extends Application {
                             entities.add(new Oneal(i, n,
                                     Sprites.oneal_right_1.getFxImage()));
                             break;
+                        case '3': // ovape
+                            entities.add(new Ovape(i, n,
+                                    Sprites.ovape_dead.getFxImage()));
+                            break;
+                        case '4': // doll
+                            entities.add(new Doll(i, n,
+                                    Sprites.ovape_dead.getFxImage()));
+                            break;
                     }
                 }
             }
@@ -161,6 +169,9 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
+        if(bomberman.isRemoved()) {
+
+        }
         // entities.forEach(Entity::update);
         for (int i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
@@ -220,7 +231,7 @@ public class BombermanGame extends Application {
     public static Entity getEnemy(int x, int y) {
         for (Entity entity : entities) {
             if (entity.compareCoordinate(x,
-                    y) /* && !(entity instanceof Bomber) */)
+                    y)  && !(entity instanceof Bomber) )
                 return entity;
         }
         return null;
@@ -228,11 +239,12 @@ public class BombermanGame extends Application {
 
     public static void addBomb(Bomb bomb) {
         bombs.add(bomb);
-        //Sound.play("sound/bomset.wav");
     }
 
-    // public static void bombExplode(List<Entity> exs) {
-    // bomb = null;
-    // explosions = exs;
-    // }
+     /*public static void bombExplode(List<Bomb> bombs) {
+        for (Bomb bomb : bombs) {
+             bomb = null;
+             explosions = exs;
+         }
+     }*/
 }

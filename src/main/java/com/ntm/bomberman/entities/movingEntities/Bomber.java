@@ -33,11 +33,9 @@ public class Bomber extends MovingEntity {
     @Override
     public void update() {
         if (direction != Direction.NONE) {
-            if (direction != Direction.NONE) {
-                handleMove();
-            }
+            handleMove();
         }
-        // checkAlive();
+        checkAlive();
     }
 
     private void handleMove() {
@@ -95,4 +93,5 @@ public class Bomber extends MovingEntity {
                 Sprites.bomb.getFxImage());
         BombermanGame.addBomb(bomb);
     }
+
 }

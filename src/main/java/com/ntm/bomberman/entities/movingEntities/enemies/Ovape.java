@@ -2,21 +2,21 @@ package com.ntm.bomberman.entities.movingEntities.enemies;
 
 import com.ntm.bomberman.BombermanGame;
 import com.ntm.bomberman.entities.Entity;
+import com.ntm.bomberman.entities.objects.Brick;
 import com.ntm.bomberman.graphics.Sprites;
 import javafx.scene.image.Image;
 
-/** Held logics for balloons in the game. */
-public class Balloon extends Enemies {
+public class Ovape extends Enemies{
     /**
      * Constructor function that takes 2 intergers and an image.
      *
-     * @param x - x coordinate of the balloon.
-     * @param y - y coordinate of the balloon.
-     * @param img - image of the balloon.
+     * @param x - x coordinate of the oneal.
+     * @param y - y coordinate of the oneal.
+     * @param img - image of the oneal.
      */
-    public Balloon(int x, int y, Image img) {
+    public Ovape(int x, int y, Image img) {
         super(x, y, img);
-        timeCountDown = 30;
+        timeCountDown = 10;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Balloon extends Enemies {
             timeCountDown--;
         } else {
             handleMove();
-            timeCountDown = 30;
+            timeCountDown = 10;
         }
     }
 
@@ -35,25 +35,25 @@ public class Balloon extends Enemies {
             case 0: // right
                 if (isCanMove(x + speed, y)) {
                     x += speed;
-                    img = Sprites.balloom_right_1.getFxImage();
+                    img = Sprites.ovape_right_1.getFxImage();
                 }
                 break;
             case 1: // left
                 if (isCanMove(x - speed, y)) {
                     x -= speed;
-                    img = Sprites.balloom_left_1.getFxImage();
+                    img = Sprites.ovape_left_1.getFxImage();
                 }
                 break;
             case 2: // up
                 if (isCanMove(x, y - speed)) {
                     y -= speed;
-                    img = Sprites.balloom_left_1.getFxImage();
+                    img = Sprites.ovape_left_2.getFxImage();
                 }
                 break;
             case 3: // down
                 if (isCanMove(x, y + speed)) {
                     y += speed;
-                    img = Sprites.balloom_right_1.getFxImage();
+                    img = Sprites.ovape_right_2.getFxImage();
                 }
                 break;
         }
@@ -63,8 +63,10 @@ public class Balloon extends Enemies {
         Entity entity = BombermanGame.getEntity(x, y);
         if (entity instanceof Enemies)
             return true;
-        if (entity == null)
+        if (entity instanceof Brick)
             return true;
+        if  (entity == null)
+            return false;
         return this.collide(entity);
     }
 }
