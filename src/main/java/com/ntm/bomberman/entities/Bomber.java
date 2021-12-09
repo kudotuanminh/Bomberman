@@ -31,7 +31,7 @@ public class Bomber extends MovingEntity {
                 handleMove();
             }
         }
-        //checkAlive();
+        checkAlive();
     }
 
     private void handleMove() {

@@ -3,6 +3,7 @@ package com.ntm.bomberman;
 import java.io.*;
 import java.util.*;
 
+import com.ntm.bomberman.entities.Bomb.Bomb;
 import com.ntm.bomberman.input.Direction;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -28,9 +29,10 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     private static List<Entity> entities = new ArrayList<>();
     private static List<Entity> friendlyEntities = new ArrayList<>();
+    private static List<Entity> explosions = new ArrayList<>();
 
     private Bomber bomberman;
-    //private static Bom bomb;
+    private static Bomb bomb;
     private Portal portal;
 
     public static void main(String[] args) {
@@ -61,12 +63,12 @@ public class BombermanGame extends Application {
             if (event.getCode() == KeyCode.DOWN) {
                 bomberman.setDirection(Direction.DOWN);
             }
-            /*if (event.getCode() == KeyCode.SPACE && bomb == null) { //  && bomberman.isAlive()
-                bomb = new Bom(bomberman.getX() / Sprite.SCALED_SIZE ,
+            if (event.getCode() == KeyCode.SPACE && bomb == null) { //  && bomberman.isAlive()
+                bomb = new Bomb(bomberman.getX() / Sprite.SCALED_SIZE ,
                         bomberman.getY() / Sprite.SCALED_SIZE ,
-                        Sprite.bomb.getFxImage());
+                        Sprites.bomb.getFxImage());
 
-            }*/
+            }
         });
 
         // Tao root container
@@ -168,9 +170,22 @@ public class BombermanGame extends Application {
         //entities.forEach(Entity::update);
         for (int i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
-           entity.update();
-           if (entity.isRemoved()) {
+            entity.update();
+            if (entity.isRemoved()) {
                 entities.remove(i);
+            }
+        }
+        if (bomb != null) {
+            bomb.update();
+        }
+
+        if (!explosions.isEmpty()) {
+            for (int i = 0; i < explosions.size(); i++) {
+                Entity entity = explosions.get(i);
+                entity.update();
+                if (entity.isRemoved()) {
+                    explosions.remove(i);
+                }
             }
         }
     }
@@ -180,7 +195,12 @@ public class BombermanGame extends Application {
         friendlyEntities.forEach(g -> g.render(gc));
         portal.render(gc);
         entities.forEach(g -> g.render(gc));
-
+        if (bomb != null) {
+            bomb.render(gc);
+        }
+        if (!explosions.isEmpty()) {
+            explosions.forEach(g -> g.render(gc));
+        }
     }
 
     public static Entity getEntity(int x, int y) {
@@ -195,9 +215,14 @@ public class BombermanGame extends Application {
 
     public static Entity getEnemy(int x, int y) {
         for (Entity entity : entities) {
-            if (entity.compareCoordinate(x, y) /*&& !(entity instanceof Bomber)*/) return entity;
+            if (entity.compareCoordinate(x, y) && !(entity instanceof Bomber)) return entity;
         }
         return null;
+    }
+
+    public static void bombExplode( List<Entity> exs ) {
+        bomb = null;
+        explosions = exs;
     }
 
     private boolean isWin() {
