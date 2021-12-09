@@ -1,5 +1,6 @@
-package com.ntm.bomberman.entities;
+package com.ntm.bomberman.entities.objects;
 
+import com.ntm.bomberman.entities.Entity;
 import javafx.scene.image.Image;
 
 /** Held logics for portals in the game. */

@@ -11,7 +11,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
-import javafx.scene.Group;
 import javafx.scene.canvas.*;
 
 import com.ntm.bomberman.graphics.*;
@@ -31,6 +30,8 @@ public class BombermanGame extends Application {
     private static List<Entity> friendlyEntities = new ArrayList<>();
 
     private Bomber bomberman;
+    //private static Bom bomb;
+    private Portal portal;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -139,8 +140,9 @@ public class BombermanGame extends Application {
                             break;
                         // items
                         case 'x': // portals
-                            entities.add(new Portal(i, n,
-                                    Sprites.portal.getFxImage()));
+                            portal = new Portal(i, n, Sprites.portal.getFxImage());
+                            //entities.add(new Portal(i, n,
+                                    //Sprites.portal.getFxImage()));
                             entities.add(new Brick(i, n,
                                     Sprites.brick.getFxImage()));
                             break;
@@ -176,7 +178,9 @@ public class BombermanGame extends Application {
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         friendlyEntities.forEach(g -> g.render(gc));
+        portal.render(gc);
         entities.forEach(g -> g.render(gc));
+
     }
 
     public static Entity getEntity(int x, int y) {
@@ -194,5 +198,15 @@ public class BombermanGame extends Application {
             if (entity.compareCoordinate(x, y) /*&& !(entity instanceof Bomber)*/) return entity;
         }
         return null;
+    }
+
+    private boolean isWin() {
+        for (Entity entity : entities) {
+            if (entity instanceof Enemies) {
+                return false;
+            }
+        }
+        return (bomberman.getX() == portal.getX()
+                && bomberman.getY() == portal.getY());
     }
 }
