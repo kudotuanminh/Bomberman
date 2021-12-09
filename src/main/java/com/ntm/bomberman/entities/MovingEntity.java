@@ -4,9 +4,7 @@ import com.ntm.bomberman.entities.objects.Grass;
 import com.ntm.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
-import java.awt.*;
-
-public abstract class MovingEntity extends Entity{
+public abstract class MovingEntity extends Entity {
     protected int speed = Sprite.SCALED_SIZE;
 
     public MovingEntity(int x, int y, Image img) {

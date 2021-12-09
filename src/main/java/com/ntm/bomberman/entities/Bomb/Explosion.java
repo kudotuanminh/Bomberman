@@ -1,4 +1,4 @@
-package com.ntm.bomberman.entities.Bomb;
+package com.ntm.bomberman.entities.bomb;
 
 import com.ntm.bomberman.entities.Entity;
 import javafx.scene.image.Image;

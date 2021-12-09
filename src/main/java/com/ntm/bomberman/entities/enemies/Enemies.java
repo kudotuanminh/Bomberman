@@ -10,14 +10,15 @@ public abstract class Enemies extends MovingEntity {
     /**
      * Constructor function that takes 2 intergers and an image.
      *
-     * @param x - x coordinate of the balloon.
-     * @param y - y coordinate of the balloon.
-     * @param img - image of the balloon.
+     * @param x - x coordinate of the enemy.
+     * @param y - y coordinate of the enemy.
+     * @param img - image of the enemy.
      */
 
     protected Random random = new Random();
     protected int direct = -1;
     protected int timeCount;
+
     public Enemies(int x, int y, Image img) {
         super(x, y, img);
     }
