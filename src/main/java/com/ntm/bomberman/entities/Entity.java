@@ -8,7 +8,7 @@ import com.ntm.bomberman.graphics.*;
 /** Held logics for every entities of the game. */
 public abstract class Entity {
     /** @param x - x coordinate of the entity. */
-    protected int  x;
+    protected int x;
     /** @param y - y coordinate of the entity. */
     protected int y;
     /** @param img - image of the entity. */
@@ -22,17 +22,20 @@ public abstract class Entity {
      * @param y - y coordinate of the entity.
      * @param img - image of the entity.
      */
-    public Entity(int x, int y, Image img) {
-        this.x = x * Sprite.SCALED_SIZE;
-        this.y = y * Sprite.SCALED_SIZE;
+    public Entity( int xUnit , int yUnit , Image img ) {
+        this.x = xUnit * Sprite.SCALED_SIZE;
+        this.y = yUnit * Sprite.SCALED_SIZE;
         this.img = img;
     }
 
-    public boolean compareCoordinate(int x, int y) {
+    protected Entity() {
+
+    }
+    public boolean compareCoordinate(int x, int y){
         return this.x == x && this.y == y;
     }
-    public void render(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
+    public void render( GraphicsContext gc ) {
+        gc.drawImage(img , x , y);
     }
 
     public abstract void update();

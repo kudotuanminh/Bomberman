@@ -5,14 +5,14 @@ import com.ntm.bomberman.entities.Entity;
 import com.ntm.bomberman.graphics.Sprites;
 import javafx.scene.image.Image;
 
-/** Held logics for ballooms in the game. */
+/** Held logics for balloms in the game. */
 public class Ballom extends Enemies {
     /**
      * Constructor function that takes 2 intergers and an image.
      *
-     * @param x - x coordinate of the balloom.
-     * @param y - y coordinate of the balloom.
-     * @param img - image of the balloom.
+     * @param x - x coordinate of the ballom.
+     * @param y - y coordinate of the ballom.
+     * @param img - image of the ballom.
      */
     public Ballom(int x, int y, Image img) {
         super(x, y, img);

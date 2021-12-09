@@ -1,9 +1,10 @@
 package com.ntm.bomberman.entities.objects;
 
+import com.ntm.bomberman.entities.Entity;
 import javafx.scene.image.Image;
 
 /** Held logics for walls in the game. */
-public class Wall extends Objects {
+public class Wall extends Entity {
     /**
      * Constructor function that takes 2 intergers and an image.
      *
@@ -13,7 +14,6 @@ public class Wall extends Objects {
      */
     public Wall(int x, int y, Image img) {
         super(x, y, img);
-        this.destroyable = false;
     }
 
     @Override

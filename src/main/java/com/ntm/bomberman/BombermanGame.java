@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import com.ntm.bomberman.input.Keyboard;
+import com.ntm.bomberman.sound.Sound;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -94,6 +95,7 @@ public class BombermanGame extends Application {
         timer.start();
 
         createMap();
+        Sound.play(Sound.ingame);
     }
 
     public void createMap() throws IOException {
@@ -151,6 +153,14 @@ public class BombermanGame extends Application {
                     case '2':
                         entities.add(new Oneal(i, rowCount,
                                 Sprites.oneal_left_1.getFxImage()));
+                        break;
+                    case '3': // ovape
+                        entities.add(new Ovape(i, rowCount,
+                                Sprites.ovape_dead.getFxImage()));
+                        break;
+                    case '4': // doll
+                        entities.add(new Doll(i, rowCount,
+                                Sprites.ovape_dead.getFxImage()));
                         break;
                 }
             }
