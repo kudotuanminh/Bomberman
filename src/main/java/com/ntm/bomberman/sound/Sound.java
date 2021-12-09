@@ -5,9 +5,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class Sound {
-
-    public Sound() {
-    }
+    public Sound() {}
 
     public static void play(String path) {
         try {

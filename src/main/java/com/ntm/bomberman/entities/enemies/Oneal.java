@@ -1,4 +1,4 @@
-package com.ntm.bomberman.entities.movingEntities.enemies;
+package com.ntm.bomberman.entities.enemies;
 
 import com.ntm.bomberman.BombermanGame;
 import com.ntm.bomberman.entities.Entity;

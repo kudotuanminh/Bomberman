@@ -4,12 +4,13 @@ import java.util.*;
 import javafx.scene.image.Image;
 import com.ntm.bomberman.BombermanGame;
 import com.ntm.bomberman.entities.*;
-import com.ntm.bomberman.entities.movingEntities.*;
 import com.ntm.bomberman.entities.objects.*;
 import com.ntm.bomberman.graphics.*;
 
+import static com.ntm.bomberman.graphics.Sprite.SCALED_SIZE;
+
 public class Bomb extends AnimatedEntity {
-    private int timeToExplodes = 100; // 100 seconds
+    private int timeToExplodes = 90;
     private int xLeft;
     private int xRight;
     private int yTop;
@@ -20,19 +21,19 @@ public class Bomb extends AnimatedEntity {
     Entity entity_down;
     Entity entity_center;
 
-    public List<Entity> explosions;
+    List<Entity> explosions;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
-        this.explosions = new ArrayList<>();
+        explosions = new ArrayList<>();
     }
 
     @Override
     public void update() {
-        xLeft = x - Sprite.SCALED_SIZE;
-        xRight = x + Sprite.SCALED_SIZE;
-        yTop = y - Sprite.SCALED_SIZE;
-        yBottom = y + Sprite.SCALED_SIZE;
+        xLeft = x - SCALED_SIZE;
+        xRight = x + SCALED_SIZE;
+        yTop = y - SCALED_SIZE;
+        yBottom = y + SCALED_SIZE;
         entity_left = BombermanGame.getEntity(xLeft, y);
         entity_right = BombermanGame.getEntity(xRight, y);
         entity_up = BombermanGame.getEntity(x, yTop);
@@ -50,10 +51,10 @@ public class Bomb extends AnimatedEntity {
         } else if (timeToExplodes < 70) {
             img = Sprites.bomb_1.getFxImage();
         }
-
     }
 
     private void bomExplodes() {
+        // SoundEffect.play("res/sound/1.wav");
         if (entity_left instanceof Brick
                 || entity_left instanceof MovingEntity) {
             entity_left.remove();
@@ -93,6 +94,6 @@ public class Bomb extends AnimatedEntity {
                     Sprites.explosion_vertical_1.getFxImage()));
         }
         explosions.add(new Explosion(x / 32, y / 32,
-                Sprites.bomb_exploded_2.getFxImage()));
+                Sprites.bomb_exploded.getFxImage()));
     }
 }

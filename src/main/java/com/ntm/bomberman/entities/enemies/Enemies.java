@@ -1,7 +1,7 @@
-package com.ntm.bomberman.entities.movingEntities.enemies;
+package com.ntm.bomberman.entities.enemies;
 
 import java.util.Random;
-import com.ntm.bomberman.entities.movingEntities.*;
+import com.ntm.bomberman.entities.MovingEntity;
 import javafx.scene.image.Image;
 
 /** Held logics for enemies in the game. */

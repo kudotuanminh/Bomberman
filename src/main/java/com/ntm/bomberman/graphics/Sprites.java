@@ -67,29 +67,29 @@ public class Sprites {
     public static Sprite mob_dead_3 =
             new Sprite(Sprite.DEFAULT_SIZE, 15, 2, SpriteSheet.tiles, 16, 16);
 
-    // BALLOM
+    // Ballom
     //
     // Contain: ballom_left_1, ballom_left_2, ballom_left_3,
     // ballom_right_1, ballom_right_2, ballom_right_3,
     // ballom_dead.
-    public static Sprite balloom_left_1 =
+    public static Sprite ballom_left_1 =
             new Sprite(Sprite.DEFAULT_SIZE, 9, 0, SpriteSheet.tiles, 16, 16);
-    public static Sprite balloom_left_2 =
+    public static Sprite ballom_left_2 =
             new Sprite(Sprite.DEFAULT_SIZE, 9, 1, SpriteSheet.tiles, 16, 16);
-    public static Sprite balloom_left_3 =
+    public static Sprite ballom_left_3 =
             new Sprite(Sprite.DEFAULT_SIZE, 9, 2, SpriteSheet.tiles, 16, 16);
 
-    public static Sprite balloom_right_1 =
+    public static Sprite ballom_right_1 =
             new Sprite(Sprite.DEFAULT_SIZE, 10, 0, SpriteSheet.tiles, 16, 16);
-    public static Sprite balloom_right_2 =
+    public static Sprite ballom_right_2 =
             new Sprite(Sprite.DEFAULT_SIZE, 10, 1, SpriteSheet.tiles, 16, 16);
-    public static Sprite balloom_right_3 =
+    public static Sprite ballom_right_3 =
             new Sprite(Sprite.DEFAULT_SIZE, 10, 2, SpriteSheet.tiles, 16, 16);
 
-    public static Sprite balloom_dead =
+    public static Sprite ballom_dead =
             new Sprite(Sprite.DEFAULT_SIZE, 9, 3, SpriteSheet.tiles, 16, 16);
 
-    // ONEAL
+    // Oneal
     //
     // Contain: oneal_left_1, oneal_left_2, oneal_left_3,
     // oneal_right_1, oneal_right_2, oneal_right_3,
@@ -177,11 +177,11 @@ public class Sprites {
     public static Sprite kondoria_dead =
             new Sprite(Sprite.DEFAULT_SIZE, 10, 8, SpriteSheet.tiles, 16, 16);
 
-    // Kondoria
+    // Ovape
     //
-    // Contain: kondoria_left_1, kondoria_left_2, kondoria_left_3,
-    // kondoria_right_1, kondoria_right_2, kondoria_right_3,
-    // kondoria_dead.
+    // Contain: ovape_left_1, ovape_left_2, ovape_left_3,
+    // ovape_right_1, ovape_right_2, ovape_right_3,
+    // ovape_dead.
     public static Sprite ovape_left_1 =
             new Sprite(Sprite.DEFAULT_SIZE, 6, 5, SpriteSheet.tiles, 16, 16);
     public static Sprite ovape_left_2 =

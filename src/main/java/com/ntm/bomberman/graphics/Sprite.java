@@ -5,14 +5,13 @@ import javafx.scene.image.*;
 /** Held logics for each sprite in the map. */
 public class Sprite {
     public static final int DEFAULT_SIZE = 16;
-    public static final int SCALED_SIZE = DEFAULT_SIZE * 2 ;
+    public static final int SCALED_SIZE = DEFAULT_SIZE * 2;
     private static final int TRANSPARENT_COLOR = 0xffff00ff;
-
-    private int SIZE;
+    public final int SIZE;
     private int x, y;
-    private int[] pixels;
-    private int realWidth;
-    private int realHeight;
+    public int[] pixels;
+    protected int realWidth;
+    protected int realHeight;
     private SpriteSheet spriteSheet;
 
     public Sprite(int SIZE, int x, int y, SpriteSheet sheet, int realWidth,

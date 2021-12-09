@@ -1,9 +1,10 @@
 package com.ntm.bomberman.entities.objects;
 
+import com.ntm.bomberman.entities.Entity;
 import javafx.scene.image.Image;
 
 /** Held logics for grasses in the game. */
-public class Portal extends Objects {
+public class Portal extends Entity {
     /**
      * Constructor function that takes 2 intergers and an image.
      *
