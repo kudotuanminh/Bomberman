@@ -238,16 +238,16 @@ public class Sprites {
     public static Sprite explosion_vertical =
             new Sprite(Sprite.DEFAULT_SIZE, 1, 5, SpriteSheet.tiles, 16, 16);
     public static Sprite explosion_vertical_1 =
-            new Sprite(Sprite.DEFAULT_SIZE, 2, 5, SpriteSheet.tiles, 16, 16);
+            new Sprite(Sprite.DEFAULT_SIZE, 2, 6, SpriteSheet.tiles, 16, 16);
     public static Sprite explosion_vertical_2 =
-            new Sprite(Sprite.DEFAULT_SIZE, 3, 5, SpriteSheet.tiles, 16, 16);
+            new Sprite(Sprite.DEFAULT_SIZE, 2, 4, SpriteSheet.tiles, 16, 16);
 
     public static Sprite explosion_horizontal =
             new Sprite(Sprite.DEFAULT_SIZE, 1, 7, SpriteSheet.tiles, 16, 16);
     public static Sprite explosion_horizontal_1 =
-            new Sprite(Sprite.DEFAULT_SIZE, 1, 8, SpriteSheet.tiles, 16, 16);
+            new Sprite(Sprite.DEFAULT_SIZE, 0, 8, SpriteSheet.tiles, 16, 16);
     public static Sprite explosion_horizontal_2 =
-            new Sprite(Sprite.DEFAULT_SIZE, 1, 9, SpriteSheet.tiles, 16, 16);
+            new Sprite(Sprite.DEFAULT_SIZE, 2, 8, SpriteSheet.tiles, 16, 16);
 
     public static Sprite explosion_horizontal_left_last =
             new Sprite(Sprite.DEFAULT_SIZE, 0, 7, SpriteSheet.tiles, 16, 16);

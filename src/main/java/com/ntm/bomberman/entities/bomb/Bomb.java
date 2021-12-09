@@ -20,11 +20,11 @@ public class Bomb extends AnimatedEntity {
     Entity entity_down;
     Entity entity_center;
 
-    List<Entity> explosions;
+    public List<Entity> explosions;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
-        explosions = new ArrayList<>();
+        this.explosions = new ArrayList<>();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class Bomb extends AnimatedEntity {
             timeToExplodes--;
         } else {
             addExplosion();
-            // BombermanGame.bombExplode(explosions);
+            BombermanGame.bombExplode(explosions);
             bomExplodes();
         }
         if (timeToExplodes < 20) {
@@ -50,10 +50,10 @@ public class Bomb extends AnimatedEntity {
         } else if (timeToExplodes < 70) {
             img = Sprites.bomb_1.getFxImage();
         }
+
     }
 
     private void bomExplodes() {
-        // SoundEffect.play("res/sound/1.wav");
         if (entity_left instanceof Brick
                 || entity_left instanceof MovingEntity) {
             entity_left.remove();
@@ -78,7 +78,7 @@ public class Bomb extends AnimatedEntity {
     private void addExplosion() {
         if (!(entity_left instanceof Wall)) {
             explosions.add(new Explosion(xLeft / 32, y / 32,
-                    Sprites.explosion_horizontal_2.getFxImage()));
+                    Sprites.explosion_horizontal_1.getFxImage()));
         }
         if (!(entity_right instanceof Wall)) {
             explosions.add(new Explosion(xRight / 32, y / 32,
@@ -90,7 +90,7 @@ public class Bomb extends AnimatedEntity {
         }
         if (!(entity_down instanceof Wall)) {
             explosions.add(new Explosion(x / 32, yBottom / 32,
-                    Sprites.explosion_vertical_2.getFxImage()));
+                    Sprites.explosion_vertical_1.getFxImage()));
         }
         explosions.add(new Explosion(x / 32, y / 32,
                 Sprites.bomb_exploded_2.getFxImage()));

@@ -1,17 +1,23 @@
 package com.ntm.bomberman;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 import com.ntm.bomberman.entities.items.SpeedItem;
+import com.ntm.bomberman.entities.objects.Portal;
 import com.ntm.bomberman.input.Keyboard;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.*;
+import java.awt.Graphics2D;
 
 import com.ntm.bomberman.graphics.*;
 import com.ntm.bomberman.entities.*;
@@ -34,8 +40,14 @@ public class BombermanGame extends Application {
     private static List<Entity> explosions = new ArrayList<>();
     private static List<Bomb> bombs = new ArrayList<>();
     private static int  speedItem = 0;
+    public static BufferedImage scene = new BufferedImage(1488, 760, 1);
+    public static Graphics textFiled = scene.getGraphics();
+    public static int startTime ;
+    public static int timeLeft = -1;
 
     private Bomber bomberman;
+    private int currentMap = 1;
+    public static int score = 0;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -124,9 +136,9 @@ public class BombermanGame extends Application {
                             entities.add(
                                     new Wall(i, n, Sprites.wall.getFxImage()));
                             break;
-                        case '*': {// brick
+                        case '*': {// brick and item(item not done)
                             if (speedItem == 0) {
-                                entities.add(new SpeedItem(i -1 , n,
+                                entities.add(new SpeedItem(i - 1 , n,
                                         Sprites.powerup_speed.getFxImage()));
                                 speedItem = 1;
                             }
@@ -139,8 +151,6 @@ public class BombermanGame extends Application {
                         case 'x': // portals
                             entities.add(new Portal(i, n,
                                     Sprites.portal.getFxImage()));
-                            entities.add(new Brick(i, n,
-                                    Sprites.brick.getFxImage()));
                             break;
                         // enemies
                         case '1': // balloon
@@ -161,7 +171,9 @@ public class BombermanGame extends Application {
                             break;
                     }
                 }
+                printScore();
             }
+
             fileReader.close();
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
@@ -170,9 +182,9 @@ public class BombermanGame extends Application {
 
     public void update() {
         if(bomberman.isRemoved()) {
-
         }
         // entities.forEach(Entity::update);
+
         for (int i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
             entity.update();
@@ -180,20 +192,44 @@ public class BombermanGame extends Application {
                 entities.remove(i);
             }
         }
-        if (bombs != null) {
-            for (Bomb bomb : bombs) {
+
+        for (int i = 0; i < bombs.size(); i++) {
+            Bomb bomb = bombs.get(i);
+            if(bomb != null) {
                 bomb.update();
             }
         }
-        if (!explosions.isEmpty()) {
-            for (int i = 0; i < explosions.size(); i++) {
-                Entity entity = explosions.get(i);
-                entity.update();
-                if (entity.isRemoved()) {
-                    explosions.remove(i);
+
+        for (int i = 0; i < bombs.size(); i++) {
+                for (int j = 0; j < bombs.get(i).explosions.size(); j++) {
+                    Entity entity = bombs.get(i).explosions.get(j);
+                    entity.update();
+                    if (entity.isRemoved()) {
+                        bombs.get(i).explosions.remove(j);
+                        //System.out.println(j);
+                        break;
+                    }
                 }
-            }
+                if (bombs.get(i).isRemoved()) {
+                    bombs.remove(i);
+                }
         }
+    }
+
+    public void printScore() {
+        textFiled.setColor(Color.PINK);
+        textFiled.clearRect(0, 0, 40, 60);
+        textFiled.drawString("Time: ", 20, 20);
+        textFiled.drawString(Integer.toString(timeLeft), 110, 755);
+        int currentTime = (int)System.currentTimeMillis() - startTime;
+        timeLeft = 300 - currentTime / 1000;
+    }
+
+    public void displayText(BufferedImage image, String text, Font font, int x, int y){
+        Graphics2d g = image.createGraphics();
+        g.setFont(font);
+        g.drawString(text, x, y);
+        g.dispose();
     }
 
     public void render() {
@@ -241,10 +277,10 @@ public class BombermanGame extends Application {
         bombs.add(bomb);
     }
 
-     /*public static void bombExplode(List<Bomb> bombs) {
+     public static void bombExplode(List<Entity> entities) {
         for (Bomb bomb : bombs) {
-             bomb = null;
-             explosions = exs;
+             bomb.remove();
          }
-     }*/
+         explosions = entities;
+     }
 }
