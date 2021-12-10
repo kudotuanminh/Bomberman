@@ -17,17 +17,22 @@ public class Sound {
         }
     }
 
-    public static Clip getClip(String path) {
+    public static void stop() {
         try {
             Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File(path)));
-            return clip;
+            clip.stop();
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
-        return null;
     }
 
-    public static String ingame = "sounds/queue.wav";
-    public static String bomber_move = "sounds/move.wav";
+    public static String level_start = "src/resources/sounds/level_start.wav";
+    public static String level_complete =
+            "src/resources/sounds/level_complete.wav";
+    public static String stage_theme = "src/resources/sounds/stage_theme.wav";
+
+    public static String bomb_placed = "src/resources/sounds/bomb_placed.wav";
+    public static String explosion = "src/resources/sounds/explosion.wav";
+
+    public static String bomber_died = "src/resources/sounds/bomber_died.wav";
 }

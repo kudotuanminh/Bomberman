@@ -1,6 +1,7 @@
 package com.ntm.bomberman.entities;
 
 import com.ntm.bomberman.BombermanGame;
+import com.ntm.bomberman.entities.bomb.Bomb;
 import com.ntm.bomberman.graphics.*;
 import com.ntm.bomberman.input.Direction;
 import com.ntm.bomberman.sound.Sound;
@@ -32,6 +33,7 @@ public class Bomber extends MovingEntity {
     }
 
     private void handleMove() {
+        // Sound.play(Sound.bomber_move);
         if (direction == Direction.RIGHT) {
             if (isCanMove(x + speed, y)) {
                 x += speed;
@@ -53,12 +55,12 @@ public class Bomber extends MovingEntity {
                 img = Sprites.player_down.getFxImage();
             }
         } else if (direction == Direction.RIGHT) {
-            if (isCanMove(x + speed , y)) {
+            if (isCanMove(x + speed, y)) {
                 x += speed;
                 img = Sprites.player_right.getFxImage();
             }
         } else if (direction == Direction.LEFT) {
-            if (isCanMove(x - speed , y)) {
+            if (isCanMove(x - speed, y)) {
                 x -= speed;
                 img = Sprites.player_left.getFxImage();
             }
@@ -83,7 +85,7 @@ public class Bomber extends MovingEntity {
     @Override
     public void remove() {
         super.remove();
-        Sound.play(Sound.bomber_move);
+        Sound.play(Sound.bomber_died);
     }
 
     public void setDirection(Direction direction) {

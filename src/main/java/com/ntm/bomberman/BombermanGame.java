@@ -1,26 +1,24 @@
 package com.ntm.bomberman;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import com.ntm.bomberman.input.Keyboard;
-import com.ntm.bomberman.sound.Sound;
+import java.util.*;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.canvas.*;
+import javafx.scene.input.*;
+import javafx.scene.layout.VBox;
 
+import com.ntm.bomberman.input.Keyboard;
+import com.ntm.bomberman.sound.Sound;
 import com.ntm.bomberman.graphics.*;
 import com.ntm.bomberman.entities.*;
 import com.ntm.bomberman.entities.bomb.*;
 import com.ntm.bomberman.entities.objects.*;
 import com.ntm.bomberman.entities.enemies.*;
-// import com.ntm.bomberman.entities.items.*;
+import com.ntm.bomberman.entities.items.*;
 
 public class BombermanGame extends Application {
     public int WIDTH = 31;
@@ -32,10 +30,13 @@ public class BombermanGame extends Application {
     private static List<Entity> entities = new ArrayList<>();
     private static List<Entity> staticEntities = new ArrayList<>();
     private static List<Entity> explosions = new ArrayList<>();
-
-    private Bomber bomberman;
+    // private static List<Entity> bombs = new ArrayList<>();
+    private static List<Entity> items = new ArrayList<>();
     private static Bomb bomb;
+
+    private static Bomber bomberman;
     private Portal portal;
+    private boolean isWin = false;
 
     private int level = 1;
 
@@ -58,10 +59,10 @@ public class BombermanGame extends Application {
 
         canvas.setOnKeyPressed((KeyEvent event) -> {
             Keyboard.handleMovement(event, bomberman);
-            if (event.getCode() == KeyCode.SPACE && bomb == null) {
-                bomb = new Bomb(bomberman.getX() / Sprite.SCALED_SIZE,
-                        bomberman.getY() / Sprite.SCALED_SIZE,
-                        Sprites.bomb.getFxImage());
+
+            if (event.getCode() == KeyCode.F12) {
+                isWin = true;
+                System.out.println("cheated xD");
             }
         });
 
@@ -94,11 +95,14 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
+        Sound.play(Sound.stage_theme);
         createMap();
-        Sound.play(Sound.ingame);
     }
 
     public void createMap() throws IOException {
+        // Sound.play(Sound.level_start);
+
+        isWin = false;
         staticEntities.clear();
         entities.clear();
         canvas.setDisable(false);
@@ -122,43 +126,57 @@ public class BombermanGame extends Application {
             rowCount++;
             for (int i = 0; i < line.length(); i++) {
                 if (line.charAt(i) == '#') {
-                    staticEntities.add(
+                    staticEntities.add( // wall
                             new Wall(i, rowCount, Sprites.wall.getFxImage()));
                 } else {
-                    staticEntities.add(
+                    staticEntities.add( // grass
                             new Grass(i, rowCount, Sprites.grass.getFxImage()));
                 }
             }
             for (int i = 0; i < line.length(); i++) {
                 switch (line.charAt(i)) {
-                    case '*':
+                    case '*': // brick
                         entities.add(new Brick(i, rowCount,
                                 Sprites.brick.getFxImage()));
                         break;
-                    case 'x':
+                    case 'x': // portal
                         portal = new Portal(i, rowCount,
                                 Sprites.portal.getFxImage());
                         entities.add(new Brick(i, rowCount,
                                 Sprites.brick.getFxImage()));
                         break;
-                    case 'p':
+
+                    case 'b': // bombItem
+                        items.add(new BombItems(i, rowCount,
+                                Sprites.powerup_bombs.getFxImage()));
+                        break;
+                    case 'f': // flameItem
+                        items.add(new FlameItems(i, rowCount,
+                                Sprites.powerup_flames.getFxImage()));
+                        break;
+                    case 's': // speedItem
+                        items.add(new SpeedItems(i, rowCount,
+                                Sprites.powerup_speed.getFxImage()));
+                        break;
+
+                    case 'p': // Bomber
                         bomberman = new Bomber(i, rowCount,
                                 Sprites.player_right.getFxImage());
                         entities.add(bomberman);
                         break;
-                    case '1':
+                    case '1': // Ballom
                         entities.add(new Ballom(i, rowCount,
                                 Sprites.ballom_left_1.getFxImage()));
                         break;
-                    case '2':
+                    case '2': // Oneal
                         entities.add(new Oneal(i, rowCount,
                                 Sprites.oneal_left_1.getFxImage()));
                         break;
-                    case '3': // ovape
+                    case '3': // Vvape
                         entities.add(new Ovape(i, rowCount,
                                 Sprites.ovape_dead.getFxImage()));
                         break;
-                    case '4': // doll
+                    case '4': // Doll
                         entities.add(new Doll(i, rowCount,
                                 Sprites.ovape_dead.getFxImage()));
                         break;
@@ -167,21 +185,19 @@ public class BombermanGame extends Application {
         }
 
         fileReader.close();
-        // status.setText("Level " + level);
     }
 
     public void update() throws IOException {
-        // entities.forEach(Entity::update);
         if (bomberman.isRemoved()) {
-            // status.setText("Game Over");
             canvas.setDisable(true);
         }
-        if (isWin()) {
+        checkWinState();
+        if (isWin) {
+            // Sound.play(Sound.level_complete);
             level++;
             if (level <= 2)
                 createMap();
             else {
-                // status.setText("You Win!");
                 canvas.setDisable(true);
             }
         }
@@ -192,10 +208,12 @@ public class BombermanGame extends Application {
                 entities.remove(i);
             }
         }
+        // for (Entity bomb : bombs) {
+        // bomb.update();
+        // }
         if (bomb != null) {
             bomb.update();
         }
-
         if (!explosions.isEmpty()) {
             for (int i = 0; i < explosions.size(); i++) {
                 Entity entity = explosions.get(i);
@@ -205,6 +223,13 @@ public class BombermanGame extends Application {
                 }
             }
         }
+        // for (Entity item : items) {
+        // if (bomberman.getX() == item.getX()
+        // && bomberman.getY() == item.getY()) {
+        // // item.setRemoved(true);
+        // item.update();
+        // }
+        // }
     }
 
     public void render() {
@@ -212,6 +237,10 @@ public class BombermanGame extends Application {
         staticEntities.forEach(g -> g.render(gc));
         portal.render(gc);
         entities.forEach(g -> g.render(gc));
+        items.forEach(g -> g.render(gc));
+        // for (Entity bomb : bombs) {
+        // bomb.render(gc);
+        // }
         if (bomb != null) {
             bomb.render(gc);
         }
@@ -240,18 +269,32 @@ public class BombermanGame extends Application {
         return null;
     }
 
+    public static void addBomb() {
+        if (bomb == null) {
+            Sound.play(Sound.bomb_placed);
+            bomb = new Bomb(bomberman.getX() / Sprite.SCALED_SIZE,
+                    bomberman.getY() / Sprite.SCALED_SIZE,
+                    Sprites.bomb.getFxImage());
+        }
+        // bombs.add(bomb);
+    }
+
     public static void bombExplode(List<Entity> exs) {
         bomb = null;
         explosions = exs;
     }
 
-    private boolean isWin() {
-        for (Entity entity : entities) {
-            if (entity instanceof Enemies) {
-                return false;
+    private void checkWinState() {
+        if (isWin) {
+            return;
+        } else {
+            for (Entity entity : entities) {
+                if (entity instanceof Enemies) {
+                    isWin = false;
+                }
             }
+            isWin = (bomberman.getX() == portal.getX()
+                    && bomberman.getY() == portal.getY());
         }
-        return (bomberman.getX() == portal.getX()
-                && bomberman.getY() == portal.getY());
     }
 }

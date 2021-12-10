@@ -1,5 +1,6 @@
 package com.ntm.bomberman.input;
 
+import com.ntm.bomberman.BombermanGame;
 import com.ntm.bomberman.entities.Bomber;
 import javafx.scene.input.*;
 
@@ -17,8 +18,8 @@ public class Keyboard {
         if (event.getCode() == KeyCode.DOWN) {
             bomber.setDirection(Direction.DOWN);
         }
-        // if (event.getCode() == KeyCode.SPACE) {
-        // bomber.setBomb();
-        // }
+        if (event.getCode() == KeyCode.SPACE) {
+            BombermanGame.addBomb();
+        }
     }
 }

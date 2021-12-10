@@ -30,23 +30,23 @@ public class Ballom extends Enemies {
     }
 
     private void handleMove() {
-        direct = this.randomDirect();
-        if (direct == 0) { // right
+        int direction = this.randomDirection();
+        if (direction == 0) { // right
             if (isCanMove(x + speed, y)) {
                 x += speed;
                 img = Sprites.ballom_right_1.getFxImage();
             }
-        } else if (direct == 1) { // left
+        } else if (direction == 1) { // left
             if (isCanMove(x - speed, y)) {
                 x -= speed;
                 img = Sprites.ballom_left_1.getFxImage();
             }
-        } else if (direct == 2) { // up
+        } else if (direction == 2) { // up
             if (isCanMove(x, y - speed)) {
                 y -= speed;
                 img = Sprites.ballom_left_1.getFxImage();
             }
-        } else if (direct == 3) { // down
+        } else if (direction == 3) { // down
             if (isCanMove(x, y + speed)) {
                 y += speed;
                 img = Sprites.ballom_right_1.getFxImage();

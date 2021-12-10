@@ -16,16 +16,16 @@ public class Ovape extends Enemies {
      */
     public Ovape(int x, int y, Image img) {
         super(x, y, img);
-        timeCountDown = 10;
+        timeCount = 10;
     }
 
     @Override
     public void update() {
-        if (timeCountDown > 0) {
-            timeCountDown--;
+        if (timeCount > 0) {
+            timeCount--;
         } else {
             handleMove();
-            timeCountDown = 10;
+            timeCount = 10;
         }
     }
 

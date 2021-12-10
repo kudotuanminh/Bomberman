@@ -9,16 +9,16 @@ import javafx.scene.image.Image;
 public class Doll extends Enemies {
     public Doll(int x, int y, Image img) {
         super(x, y, img);
-        timeCountDown = 30;
+        timeCount = 30;
     }
 
     @Override
     public void update() {
-        if (timeCountDown > 0) {
-            timeCountDown--;
+        if (timeCount > 0) {
+            timeCount--;
         } else {
             handleMove();
-            timeCountDown = 30;
+            timeCount = 30;
         }
     }
 

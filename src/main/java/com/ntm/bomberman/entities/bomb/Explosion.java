@@ -5,8 +5,9 @@ import javafx.scene.image.Image;
 
 public class Explosion extends Entity {
     private int time = 20;
-    public Explosion( int x , int y , Image img ) {
-        super(x , y , img);
+
+    public Explosion(int x, int y, Image img) {
+        super(x, y, img);
     }
 
     @Override

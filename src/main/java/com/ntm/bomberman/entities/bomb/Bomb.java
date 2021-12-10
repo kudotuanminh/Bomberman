@@ -6,7 +6,7 @@ import com.ntm.bomberman.BombermanGame;
 import com.ntm.bomberman.entities.*;
 import com.ntm.bomberman.entities.objects.*;
 import com.ntm.bomberman.graphics.*;
-
+import com.ntm.bomberman.sound.Sound;
 import static com.ntm.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public class Bomb extends AnimatedEntity {
@@ -54,7 +54,7 @@ public class Bomb extends AnimatedEntity {
     }
 
     private void bomExplodes() {
-        // SoundEffect.play("res/sound/1.wav");
+        Sound.play(Sound.explosion);
         if (entity_left instanceof Brick
                 || entity_left instanceof MovingEntity) {
             entity_left.remove();

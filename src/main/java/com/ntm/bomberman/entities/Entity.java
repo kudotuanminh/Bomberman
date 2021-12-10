@@ -22,20 +22,18 @@ public abstract class Entity {
      * @param y - y coordinate of the entity.
      * @param img - image of the entity.
      */
-    public Entity( int xUnit , int yUnit , Image img ) {
+    public Entity(int xUnit, int yUnit, Image img) {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.img = img;
     }
 
-    protected Entity() {
-
-    }
-    public boolean compareCoordinate(int x, int y){
+    public boolean compareCoordinate(int x, int y) {
         return this.x == x && this.y == y;
     }
-    public void render( GraphicsContext gc ) {
-        gc.drawImage(img , x , y);
+
+    public void render(GraphicsContext gc) {
+        gc.drawImage(img, x, y);
     }
 
     public abstract void update();
@@ -48,11 +46,11 @@ public abstract class Entity {
         return isRemoved;
     }
 
-    public void setX( int x ) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public void setY( int y ) {
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -64,7 +62,7 @@ public abstract class Entity {
         return y;
     }
 
-    public void setImg( Image img ) {
+    public void setImg(Image img) {
         this.img = img;
     }
 }
