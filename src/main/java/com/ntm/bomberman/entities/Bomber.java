@@ -1,5 +1,6 @@
 package com.ntm.bomberman.entities;
 
+import java.util.*;
 import com.ntm.bomberman.BombermanGame;
 import com.ntm.bomberman.entities.bomb.Bomb;
 import com.ntm.bomberman.graphics.*;
@@ -13,8 +14,13 @@ import javafx.scene.image.Image;
 public class Bomber extends MovingEntity {
     private Direction direction = Direction.NONE;
 
+    public int placedBombs = 0;
+    public int maxBombs = 1;
+
+    public List<Bomb> bombs = new ArrayList<>();
+
     /**
-     * Constructor function that takes 2 intergers and an image.
+     * Constructor function that takes 2 integers and an image.
      *
      * @param x - x coordinate of the bomber.
      * @param y - y coordinate of the bomber.
@@ -30,39 +36,30 @@ public class Bomber extends MovingEntity {
             handleMove();
         }
         checkAlive();
+        recountBombs();
     }
 
     private void handleMove() {
         // Sound.play(Sound.bomber_move);
         if (direction == Direction.RIGHT) {
-            if (isCanMove(x + speed, y)) {
+            if (isCanMove(x + Sprite.SCALED_SIZE, y)) {
                 x += speed;
                 img = Sprites.player_right.getFxImage();
             }
         } else if (direction == Direction.LEFT) {
-            if (isCanMove(x - speed, y)) {
+            if (isCanMove(x - Sprite.SCALED_SIZE, y)) {
                 x -= speed;
                 img = Sprites.player_left.getFxImage();
             }
         } else if (direction == Direction.UP) {
-            if (isCanMove(x, y - speed)) {
+            if (isCanMove(x, y - Sprite.SCALED_SIZE)) {
                 y -= speed;
                 img = Sprites.player_up.getFxImage();
             }
         } else if (direction == Direction.DOWN) {
-            if (isCanMove(x, y + speed)) {
+            if (isCanMove(x, y + Sprite.SCALED_SIZE)) {
                 y += speed;
                 img = Sprites.player_down.getFxImage();
-            }
-        } else if (direction == Direction.RIGHT) {
-            if (isCanMove(x + speed, y)) {
-                x += speed;
-                img = Sprites.player_right.getFxImage();
-            }
-        } else if (direction == Direction.LEFT) {
-            if (isCanMove(x - speed, y)) {
-                x -= speed;
-                img = Sprites.player_left.getFxImage();
             }
         }
         direction = Direction.NONE;
@@ -90,5 +87,33 @@ public class Bomber extends MovingEntity {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public void placeBomb() {
+        boolean ableToPlaceBomb = true;
+        int x_bomb = (BombermanGame.bomberman.getX() / Sprite.SCALED_SIZE);
+        int y_bomb = (BombermanGame.bomberman.getY() / Sprite.SCALED_SIZE);
+        for (Entity bomb : bombs) {
+            if (bomb.getX() == x_bomb && bomb.getY() == y_bomb) {
+                ableToPlaceBomb = false;
+                break;
+            }
+        }
+        if (placedBombs < maxBombs && ableToPlaceBomb) {
+            Bomb bomb = new Bomb(x_bomb, y_bomb, Sprites.bomb.getFxImage());
+            bombs.add(bomb);
+            Sound.play(Sound.bomb_placed);
+        }
+        placedBombs++;
+    }
+
+    private void recountBombs() {
+        placedBombs = bombs.size();
+        for (int i = 0; i < bombs.size(); i++) {
+            if (bombs.get(i).isRemoved()) {
+                bombs.remove(i);
+                --i;
+            }
+        }
     }
 }

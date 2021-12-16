@@ -7,19 +7,32 @@ import com.ntm.bomberman.entities.*;
 import com.ntm.bomberman.entities.objects.*;
 import com.ntm.bomberman.graphics.*;
 import com.ntm.bomberman.sound.Sound;
-import static com.ntm.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public class Bomb extends AnimatedEntity {
     private int timeToExplodes = 90;
-    private int xLeft;
-    private int xRight;
-    private int yTop;
-    private int yBottom;
+
+    public static int bombSize = 1;
+
+    private int xLeft = x;
+    private int xRight = x;
+    private int yTop = y;
+    private int yBottom = y;
+
+    boolean leftWalled = false;
+    boolean rightWalled = false;
+    boolean topWalled = false;
+    boolean bottomWalled = false;
+
     Entity entity_left;
     Entity entity_right;
-    Entity entity_up;
-    Entity entity_down;
+    Entity entity_top;
+    Entity entity_bottom;
+
     Entity entity_center;
+    List<Entity> entities_left;
+    List<Entity> entities_right;
+    List<Entity> entities_top;
+    List<Entity> entities_bottom;
 
     List<Entity> explosions;
 
@@ -30,21 +43,13 @@ public class Bomb extends AnimatedEntity {
 
     @Override
     public void update() {
-        xLeft = x - SCALED_SIZE;
-        xRight = x + SCALED_SIZE;
-        yTop = y - SCALED_SIZE;
-        yBottom = y + SCALED_SIZE;
-        entity_left = BombermanGame.getEntity(xLeft, y);
-        entity_right = BombermanGame.getEntity(xRight, y);
-        entity_up = BombermanGame.getEntity(x, yTop);
-        entity_down = BombermanGame.getEntity(x, yBottom);
-        entity_center = BombermanGame.getEntity(x, y);
         if (timeToExplodes > 0) {
             timeToExplodes--;
         } else {
+            checkEntities();
             addExplosion();
             BombermanGame.bombExplode(explosions);
-            bomExplodes();
+            bombExplodes();
         }
         if (timeToExplodes < 20) {
             img = Sprites.bomb_2.getFxImage();
@@ -53,47 +58,136 @@ public class Bomb extends AnimatedEntity {
         }
     }
 
-    private void bomExplodes() {
+    private void checkEntities() {
+        entity_center = BombermanGame.getEntity(x, y);
+
+        entities_left = new ArrayList<>();
+        entities_right = new ArrayList<>();
+        entities_top = new ArrayList<>();
+        entities_bottom = new ArrayList<>();
+
+        for (int i = 0; i < bombSize; i++) {
+            xLeft -= Sprite.SCALED_SIZE;
+            xRight += Sprite.SCALED_SIZE;
+            yTop -= Sprite.SCALED_SIZE;
+            yBottom += Sprite.SCALED_SIZE;
+
+            if (!leftWalled) {
+                entity_left = BombermanGame.getEntity(xLeft, y);
+            }
+            if (!rightWalled) {
+                entity_right = BombermanGame.getEntity(xRight, y);
+            }
+            if (!topWalled) {
+                entity_top = BombermanGame.getEntity(x, yTop);
+            }
+            if (!bottomWalled) {
+                entity_bottom = BombermanGame.getEntity(x, yBottom);
+            }
+
+            if (!(entity_left instanceof Wall)) {
+                entities_left.add(entity_left);
+            } else {
+                leftWalled = true;
+            }
+            if (!(entity_right instanceof Wall)) {
+                entities_right.add(entity_right);
+            } else {
+                rightWalled = true;
+            }
+            if (!(entity_top instanceof Wall)) {
+                entities_top.add(entity_top);
+            } else {
+                topWalled = true;
+            }
+            if (!(entity_bottom instanceof Wall)) {
+                entities_bottom.add(entity_bottom);
+            } else {
+                bottomWalled = true;
+            }
+        }
+    }
+
+    private void bombExplodes() {
         Sound.play(Sound.explosion);
-        if (entity_left instanceof Brick
-                || entity_left instanceof MovingEntity) {
-            entity_left.remove();
-        }
-        if (entity_right instanceof Brick
-                || entity_right instanceof MovingEntity) {
-            entity_right.remove();
-        }
-        if (entity_up instanceof Brick || entity_up instanceof MovingEntity) {
-            entity_up.remove();
-        }
-        if (entity_down instanceof Brick
-                || entity_down instanceof MovingEntity) {
-            entity_down.remove();
-        }
         if (entity_center instanceof Brick
                 || entity_center instanceof MovingEntity) {
             entity_center.remove();
         }
+        for (int i = 0; i < entities_left.size(); i++) {
+            if (entities_left.get(i) instanceof Brick
+                    || entities_left.get(i) instanceof MovingEntity) {
+                entities_left.get(i).remove();
+            }
+        }
+        for (int i = 0; i < entities_right.size(); i++) {
+            if (entities_right.get(i) instanceof Brick
+                    || entities_right.get(i) instanceof MovingEntity) {
+                entities_right.get(i).remove();
+            }
+        }
+        for (int i = 0; i < entities_top.size(); i++) {
+            if (entities_top.get(i) instanceof Brick
+                    || entities_top.get(i) instanceof MovingEntity) {
+                entities_top.get(i).remove();
+            }
+        }
+        for (int i = 0; i < entities_bottom.size(); i++) {
+            if (entities_bottom.get(i) instanceof Brick
+                    || entities_bottom.get(i) instanceof MovingEntity) {
+                entities_bottom.get(i).remove();
+            }
+        }
     }
 
     private void addExplosion() {
-        if (!(entity_left instanceof Wall)) {
-            explosions.add(new Explosion(xLeft / 32, y / 32,
-                    Sprites.explosion_horizontal_1.getFxImage()));
+        int a = x / Sprite.SCALED_SIZE;
+        int b = y / Sprite.SCALED_SIZE;
+        explosions.add(new Explosion(a, b, Sprites.bomb_exploded.getFxImage()));
+
+        for (int i = 0; i < entities_left.size(); i++) {
+            a = (x - ((i + 1) * Sprite.SCALED_SIZE)) / Sprite.SCALED_SIZE;
+            b = y / Sprite.SCALED_SIZE;
+            if (i == entities_left.size() - 1) {
+                explosions.add(new Explosion(a, b,
+                        Sprites.explosion_horizontal_left_last.getFxImage()));
+            } else {
+                explosions.add(new Explosion(a, b,
+                        Sprites.explosion_horizontal.getFxImage()));
+            }
         }
-        if (!(entity_right instanceof Wall)) {
-            explosions.add(new Explosion(xRight / 32, y / 32,
-                    Sprites.explosion_horizontal_2.getFxImage()));
+        for (int i = 0; i < entities_right.size(); i++) {
+            a = (x + ((i + 1) * Sprite.SCALED_SIZE)) / Sprite.SCALED_SIZE;
+            b = y / Sprite.SCALED_SIZE;
+            if (i == entities_right.size() - 1) {
+                explosions.add(new Explosion(a, b,
+                        Sprites.explosion_horizontal_right_last.getFxImage()));
+            } else {
+                explosions.add(new Explosion(a, b,
+                        Sprites.explosion_horizontal.getFxImage()));
+            }
         }
-        if (!(entity_up instanceof Wall)) {
-            explosions.add(new Explosion(x / 32, yTop / 32,
-                    Sprites.explosion_vertical_2.getFxImage()));
+        for (int i = 0; i < entities_top.size(); i++) {
+            a = x / Sprite.SCALED_SIZE;
+            b = (y - ((i + 1) * Sprite.SCALED_SIZE)) / Sprite.SCALED_SIZE;
+            if (i == entities_top.size() - 1) {
+                explosions.add(new Explosion(a, b,
+                        Sprites.explosion_vertical_top_last.getFxImage()));
+            } else {
+                explosions.add(new Explosion(a, b,
+                        Sprites.explosion_vertical.getFxImage()));
+            }
         }
-        if (!(entity_down instanceof Wall)) {
-            explosions.add(new Explosion(x / 32, yBottom / 32,
-                    Sprites.explosion_vertical_1.getFxImage()));
+        for (int i = 0; i < entities_bottom.size(); i++) {
+            a = x / Sprite.SCALED_SIZE;
+            b = (y + ((i + 1) * Sprite.SCALED_SIZE)) / Sprite.SCALED_SIZE;
+            if (i == entities_bottom.size() - 1) {
+                explosions.add(new Explosion(a, b,
+                        Sprites.explosion_vertical_bottom_last.getFxImage()));
+            } else {
+                explosions.add(new Explosion(a, b,
+                        Sprites.explosion_vertical.getFxImage()));
+            }
         }
-        explosions.add(new Explosion(x / 32, y / 32,
-                Sprites.bomb_exploded.getFxImage()));
     }
 }

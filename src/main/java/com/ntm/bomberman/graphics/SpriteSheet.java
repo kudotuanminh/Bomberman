@@ -10,7 +10,6 @@ public class SpriteSheet {
             new SpriteSheet("./src/resources/textures/classic.png", 256);
 
     private String path;
-    private BufferedImage image;
     private final int SIZE;
     private int[] pixels;
 
@@ -31,7 +30,7 @@ public class SpriteSheet {
 
     private void load() {
         try {
-            image = ImageIO.read(new File(this.path));
+            BufferedImage image = ImageIO.read(new File(this.path));
             int w = image.getWidth();
             int h = image.getHeight();
             image.getRGB(0, 0, w, h, this.pixels, 0, w);

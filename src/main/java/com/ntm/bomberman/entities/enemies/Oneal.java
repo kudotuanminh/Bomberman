@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 /** Held logics for oneals in the game. */
 public class Oneal extends Enemies {
     /**
-     * Constructor function that takes 2 intergers and an image.
+     * Constructor function that takes 2 integers and an image.
      *
      * @param x - x coordinate of the oneal.
      * @param y - y coordinate of the oneal.

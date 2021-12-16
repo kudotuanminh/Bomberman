@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 /** Held logics for bricks in the game. */
 public class Brick extends Entity {
     /**
-     * Constructor function that takes 2 intergers and an image.
+     * Constructor function that takes 2 integers and an image.
      *
      * @param x - x coordinate of the brick.
      * @param y - y coordinate of the brick.

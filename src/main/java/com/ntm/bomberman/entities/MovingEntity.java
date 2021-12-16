@@ -12,6 +12,6 @@ public abstract class MovingEntity extends AnimatedEntity {
     }
 
     protected boolean collide(Entity entity) {
-        return (entity instanceof Grass || entity instanceof MovingEntity);
+        return (entity instanceof Grass);
     }
 }

@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 
 import com.ntm.bomberman.graphics.*;
 
-/** Held logics for every entities of the game. */
+/** Held logics for every entity of the game. */
 public abstract class Entity {
     /** @param x - x coordinate of the entity. */
     protected int x;
@@ -16,15 +16,15 @@ public abstract class Entity {
     protected boolean isRemoved = false;
 
     /**
-     * Constructor function that takes 2 intergers and an image.
+     * Constructor function that takes 2 integers and an image.
      *
      * @param x - x coordinate of the entity.
      * @param y - y coordinate of the entity.
      * @param img - image of the entity.
      */
-    public Entity(int xUnit, int yUnit, Image img) {
-        this.x = xUnit * Sprite.SCALED_SIZE;
-        this.y = yUnit * Sprite.SCALED_SIZE;
+    public Entity(int x, int y, Image img) {
+        this.x = x * Sprite.SCALED_SIZE;
+        this.y = y * Sprite.SCALED_SIZE;
         this.img = img;
     }
 

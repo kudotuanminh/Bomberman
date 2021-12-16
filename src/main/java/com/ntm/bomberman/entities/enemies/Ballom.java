@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 /** Held logics for balloms in the game. */
 public class Ballom extends Enemies {
     /**
-     * Constructor function that takes 2 intergers and an image.
+     * Constructor function that takes 2 integers and an image.
      *
      * @param x - x coordinate of the ballom.
      * @param y - y coordinate of the ballom.

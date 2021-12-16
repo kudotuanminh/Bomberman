@@ -12,7 +12,7 @@ public abstract class Enemies extends MovingEntity {
     protected int timeCount;
 
     /**
-     * Constructor function that takes 2 intergers and an image.
+     * Constructor function that takes 2 integers and an image.
      *
      * @param x - x coordinate of the enemy.
      * @param y - y coordinate of the enemy.

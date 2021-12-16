@@ -7,4 +7,11 @@ public abstract class Items extends Entity {
     public Items(int x, int y, Image img) {
         super(x, y, img);
     }
+
+    public void checkPlayerCollision() {}
+
+    @Override
+    public void update() {
+        checkPlayerCollision();
+    }
 }

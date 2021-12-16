@@ -1,6 +1,7 @@
 package com.ntm.bomberman;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import javafx.animation.AnimationTimer;
@@ -15,7 +16,6 @@ import com.ntm.bomberman.input.Keyboard;
 import com.ntm.bomberman.sound.Sound;
 import com.ntm.bomberman.graphics.*;
 import com.ntm.bomberman.entities.*;
-import com.ntm.bomberman.entities.bomb.*;
 import com.ntm.bomberman.entities.objects.*;
 import com.ntm.bomberman.entities.enemies.*;
 import com.ntm.bomberman.entities.items.*;
@@ -27,14 +27,13 @@ public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
 
-    private static List<Entity> entities = new ArrayList<>();
     private static List<Entity> staticEntities = new ArrayList<>();
-    private static List<Entity> explosions = new ArrayList<>();
-    // private static List<Entity> bombs = new ArrayList<>();
+    private static List<Entity> entities = new ArrayList<>();
     private static List<Entity> items = new ArrayList<>();
-    private static Bomb bomb;
+    private static List<Entity> enemies = new ArrayList<>();
+    private static List<Entity> explosions = new ArrayList<>();
 
-    private static Bomber bomberman;
+    public static Bomber bomberman;
     private Portal portal;
     private boolean isWin = false;
 
@@ -105,12 +104,14 @@ public class BombermanGame extends Application {
         isWin = false;
         staticEntities.clear();
         entities.clear();
+        items.clear();
+        enemies.clear();
         canvas.setDisable(false);
 
         BufferedReader fileReader = new BufferedReader(new InputStreamReader(
                 new FileInputStream(
                         "./src/resources/levels/Level" + level + ".txt"),
-                "UTF-8"));
+                StandardCharsets.UTF_8));
 
         String line;
         line = fileReader.readLine();
@@ -125,63 +126,71 @@ public class BombermanGame extends Application {
         while ((line = fileReader.readLine()) != null) {
             rowCount++;
             for (int i = 0; i < line.length(); i++) {
-                if (line.charAt(i) == '#') {
-                    staticEntities.add( // wall
+                if (line.charAt(i) == '#') { // wall
+                    staticEntities.add(
                             new Wall(i, rowCount, Sprites.wall.getFxImage()));
-                } else {
-                    staticEntities.add( // grass
+                } else { // grass
+                    staticEntities.add(
                             new Grass(i, rowCount, Sprites.grass.getFxImage()));
                 }
             }
             for (int i = 0; i < line.length(); i++) {
                 switch (line.charAt(i)) {
-                    case '*': // brick
+                    case '*' -> { // brick
                         entities.add(new Brick(i, rowCount,
                                 Sprites.brick.getFxImage()));
-                        break;
-                    case 'x': // portal
+                    }
+                    case 'x' -> { // portal
                         portal = new Portal(i, rowCount,
                                 Sprites.portal.getFxImage());
+                        staticEntities.add(portal);
                         entities.add(new Brick(i, rowCount,
                                 Sprites.brick.getFxImage()));
-                        break;
+                    }
 
-                    case 'b': // bombItem
+                    case 'b' -> { // bombItem
                         items.add(new BombItems(i, rowCount,
                                 Sprites.powerup_bombs.getFxImage()));
-                        break;
-                    case 'f': // flameItem
+                        entities.add(new Brick(i, rowCount,
+                                Sprites.brick.getFxImage()));
+                    }
+                    case 'f' -> { // flameItem
                         items.add(new FlameItems(i, rowCount,
                                 Sprites.powerup_flames.getFxImage()));
-                        break;
-                    case 's': // speedItem
+                        entities.add(new Brick(i, rowCount,
+                                Sprites.brick.getFxImage()));
+                    }
+                    case 's' -> { // speedItem
                         items.add(new SpeedItems(i, rowCount,
                                 Sprites.powerup_speed.getFxImage()));
-                        break;
+                        entities.add(new Brick(i, rowCount,
+                                Sprites.brick.getFxImage()));
+                    }
 
-                    case 'p': // Bomber
+                    case 'p' -> { // Bomberman
                         bomberman = new Bomber(i, rowCount,
                                 Sprites.player_right.getFxImage());
                         entities.add(bomberman);
-                        break;
-                    case '1': // Ballom
-                        entities.add(new Ballom(i, rowCount,
+                    }
+                    case '1' -> { // Ballom
+                        enemies.add(new Ballom(i, rowCount,
                                 Sprites.ballom_left_1.getFxImage()));
-                        break;
-                    case '2': // Oneal
-                        entities.add(new Oneal(i, rowCount,
+                    }
+                    case '2' -> { // Oneal
+                        enemies.add(new Oneal(i, rowCount,
                                 Sprites.oneal_left_1.getFxImage()));
-                        break;
-                    case '3': // Vvape
-                        entities.add(new Ovape(i, rowCount,
+                    }
+                    case '3' -> { // Ovape
+                        enemies.add(new Ovape(i, rowCount,
                                 Sprites.ovape_dead.getFxImage()));
-                        break;
-                    case '4': // Doll
-                        entities.add(new Doll(i, rowCount,
+                    }
+                    case '4' -> { // Doll
+                        enemies.add(new Doll(i, rowCount,
                                 Sprites.ovape_dead.getFxImage()));
-                        break;
+                    }
                 }
             }
+
         }
 
         fileReader.close();
@@ -208,11 +217,22 @@ public class BombermanGame extends Application {
                 entities.remove(i);
             }
         }
-        // for (Entity bomb : bombs) {
-        // bomb.update();
-        // }
-        if (bomb != null) {
-            bomb.update();
+        for (int i = 0; i < enemies.size(); i++) {
+            Entity enemy = enemies.get(i);
+            enemy.update();
+            if (enemy.isRemoved()) {
+                enemies.remove(i);
+            }
+        }
+        for (int i = 0; i < items.size(); i++) {
+            Entity item = items.get(i);
+            item.update();
+            if (item.isRemoved()) {
+                items.remove(i);
+            }
+        }
+        for (int i = 0; i < bomberman.bombs.size(); i++) {
+            bomberman.bombs.get(i).update();
         }
         if (!explosions.isEmpty()) {
             for (int i = 0; i < explosions.size(); i++) {
@@ -223,64 +243,54 @@ public class BombermanGame extends Application {
                 }
             }
         }
-        // for (Entity item : items) {
-        // if (bomberman.getX() == item.getX()
-        // && bomberman.getY() == item.getY()) {
-        // // item.setRemoved(true);
-        // item.update();
-        // }
-        // }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
         staticEntities.forEach(g -> g.render(gc));
-        portal.render(gc);
-        entities.forEach(g -> g.render(gc));
         items.forEach(g -> g.render(gc));
-        // for (Entity bomb : bombs) {
-        // bomb.render(gc);
-        // }
-        if (bomb != null) {
-            bomb.render(gc);
-        }
+        entities.forEach(g -> g.render(gc));
+        enemies.forEach(g -> g.render(gc));
+        bomberman.bombs.forEach(g -> g.render(gc));
+
         if (!explosions.isEmpty()) {
             explosions.forEach(g -> g.render(gc));
         }
     }
 
     public static Entity getEntity(int x, int y) {
+        for (Entity enemy : enemies) {
+            if (enemy.compareCoordinate(x, y)) {
+                return enemy;
+            }
+        }
         for (Entity entity : entities) {
-            if (entity.compareCoordinate(x, y))
+            if (entity.compareCoordinate(x, y)) {
                 return entity;
+            }
         }
         for (Entity entity : staticEntities) {
-            if (entity.compareCoordinate(x, y))
+            if (entity.compareCoordinate(x, y)) {
                 return entity;
+            }
         }
         return null;
     }
 
     public static Entity getEnemy(int x, int y) {
-        for (Entity entity : entities) {
-            if (entity.compareCoordinate(x, y) && !(entity instanceof Bomber))
-                return entity;
+        for (Entity enemy : enemies) {
+            if (enemy.compareCoordinate(x, y)) {
+                return enemy;
+            }
         }
         return null;
     }
 
-    public static void addBomb() {
-        if (bomb == null) {
-            Sound.play(Sound.bomb_placed);
-            bomb = new Bomb(bomberman.getX() / Sprite.SCALED_SIZE,
-                    bomberman.getY() / Sprite.SCALED_SIZE,
-                    Sprites.bomb.getFxImage());
-        }
-        // bombs.add(bomb);
-    }
-
     public static void bombExplode(List<Entity> exs) {
-        bomb = null;
+        if (bomberman.bombs.size() > 0) {
+            bomberman.bombs.remove(bomberman.bombs.get(0));
+        }
         explosions = exs;
     }
 
@@ -288,13 +298,8 @@ public class BombermanGame extends Application {
         if (isWin) {
             return;
         } else {
-            for (Entity entity : entities) {
-                if (entity instanceof Enemies) {
-                    isWin = false;
-                }
-            }
             isWin = (bomberman.getX() == portal.getX()
-                    && bomberman.getY() == portal.getY());
+                    && bomberman.getY() == portal.getY() && enemies.isEmpty());
         }
     }
 }

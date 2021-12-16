@@ -2,6 +2,8 @@ package com.ntm.bomberman.graphics;
 
 import javafx.scene.image.*;
 
+import java.util.Arrays;
+
 /** Held logics for each sprite in the map. */
 public class Sprite {
     public static final int DEFAULT_SIZE = 16;
@@ -33,9 +35,7 @@ public class Sprite {
     }
 
     private void setColor(int color) {
-        for (int i = 0; i < this.pixels.length; i++) {
-            this.pixels[i] = color;
-        }
+        Arrays.fill(this.pixels, color);
     }
 
     private void load() {
