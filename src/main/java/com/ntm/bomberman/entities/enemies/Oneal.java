@@ -30,36 +30,57 @@ public class Oneal extends Enemies {
     }
 
     private void handleMove() {
-        direction = this.randomDirection();
-        if (direction == 0) { // right
-            if (isCanMove(x + speed, y)) {
-                x += speed;
-                img = Sprites.oneal_right_1.getFxImage();
-            }
-        } else if (direction == 1) { // left
-            if (isCanMove(x - speed, y)) {
-                x -= speed;
-                img = Sprites.oneal_left_1.getFxImage();
-            }
-        } else if (direction == 2) { // up
-            if (isCanMove(x, y - speed)) {
-                y -= speed;
-                img = Sprites.oneal_left_1.getFxImage();
-            }
-        } else if (direction == 3) { // down
-            if (isCanMove(x, y + speed)) {
-                y += speed;
-                img = Sprites.oneal_right_1.getFxImage();
-            }
+        boolean randomPathOrNot = random.nextBoolean();
+        if (randomPathOrNot) {
+            direction = this.randomDirection();
+        } else {
+            direction = this.bestDirection();
+        }
+        switch (direction) {
+            case 0: // right
+                if (isCanMove(x + speed, y)) {
+                    x += speed;
+                    img = Sprites.oneal_right_1.getFxImage();
+                }
+                break;
+            case 1: // left
+                if (isCanMove(x - speed, y)) {
+                    x -= speed;
+                    img = Sprites.oneal_left_1.getFxImage();
+                }
+                break;
+            case 2: // up
+                if (isCanMove(x, y - speed)) {
+                    y -= speed;
+                    img = Sprites.oneal_left_1.getFxImage();
+                }
+                break;
+            case 3: // down
+                if (isCanMove(x, y + speed)) {
+                    y += speed;
+                    img = Sprites.oneal_right_1.getFxImage();
+                }
+                break;
+        }
+    }
+
+    private int bestDirection() {
+        int xBomber = BombermanGame.bomberman.getX();
+        int yBomber = BombermanGame.bomberman.getY();
+
+        if (xBomber > x) {
+            return 0;
+        } else if (xBomber < x) {
+            return 1;
+        } else if (yBomber > y) {
+            return 2;
+        } else {
+            return 3;
         }
     }
 
     private boolean isCanMove(int x, int y) {
         Entity entity = BombermanGame.getEntity(x, y);
-        if (entity instanceof Enemies)
-            return false;
-        if (entity == null)
-            return true;
         return this.collide(entity);
     }
 }

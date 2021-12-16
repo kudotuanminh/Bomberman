@@ -2,21 +2,21 @@ package com.ntm.bomberman.entities.enemies;
 
 import com.ntm.bomberman.BombermanGame;
 import com.ntm.bomberman.entities.Entity;
+import com.ntm.bomberman.entities.objects.Brick;
 import com.ntm.bomberman.graphics.Sprites;
 import javafx.scene.image.Image;
 
-/** Held logics for balloms in the game. */
-public class Ballom extends Enemies {
+public class Kondoria extends Enemies {
     /**
      * Constructor function that takes 2 integers and an image.
      *
-     * @param x - x coordinate of the ballom.
-     * @param y - y coordinate of the ballom.
-     * @param img - image of the ballom.
+     * @param x - x coordinate of the kondoria.
+     * @param y - y coordinate of the kondoria.
+     * @param img - image of the kondoria.
      */
-    public Ballom(int x, int y, Image img) {
+    public Kondoria(int x, int y, Image img) {
         super(x, y, img);
-        timeCount = 20;
+        timeCount = 50;
     }
 
     @Override
@@ -25,35 +25,35 @@ public class Ballom extends Enemies {
             timeCount--;
         } else {
             handleMove();
-            timeCount = 20;
+            timeCount = 50;
         }
     }
 
     private void handleMove() {
-        int direction = this.randomDirection();
+        direction = this.randomDirection();
         switch (direction) {
             case 0: // right
                 if (isCanMove(x + speed, y)) {
                     x += speed;
-                    img = Sprites.ballom_right_1.getFxImage();
+                    img = Sprites.kondoria_right_1.getFxImage();
                 }
                 break;
-            case 1:// left
+            case 1: // left
                 if (isCanMove(x - speed, y)) {
                     x -= speed;
-                    img = Sprites.ballom_left_1.getFxImage();
+                    img = Sprites.kondoria_left_1.getFxImage();
                 }
                 break;
             case 2: // up
                 if (isCanMove(x, y - speed)) {
                     y -= speed;
-                    img = Sprites.ballom_left_1.getFxImage();
+                    img = Sprites.kondoria_left_2.getFxImage();
                 }
                 break;
             case 3: // down
                 if (isCanMove(x, y + speed)) {
                     y += speed;
-                    img = Sprites.ballom_right_1.getFxImage();
+                    img = Sprites.kondoria_right_2.getFxImage();
                 }
                 break;
         }
@@ -61,6 +61,8 @@ public class Ballom extends Enemies {
 
     private boolean isCanMove(int x, int y) {
         Entity entity = BombermanGame.getEntity(x, y);
+        if (entity instanceof Brick)
+            return true;
         return this.collide(entity);
     }
 }

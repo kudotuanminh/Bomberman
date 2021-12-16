@@ -15,12 +15,20 @@ public class Keyboard {
         }
         if (lastMoveNanos <= 0L || now - lastMoveNanos >= THRESHOLD) {
             switch (event.getCode()) {
-                case UP -> bomber.setDirection(Direction.UP);
-                case DOWN -> bomber.setDirection(Direction.DOWN);
-                case LEFT -> bomber.setDirection(Direction.LEFT);
-                case RIGHT -> bomber.setDirection(Direction.RIGHT);
-                default -> {
-                }
+                case UP:
+                    bomber.setDirection(Direction.UP);
+                    break;
+                case DOWN:
+                    bomber.setDirection(Direction.DOWN);
+                    break;
+                case LEFT:
+                    bomber.setDirection(Direction.LEFT);
+                    break;
+                case RIGHT:
+                    bomber.setDirection(Direction.RIGHT);
+                    break;
+                default:
+                    break;
             }
             lastMoveNanos = now;
         }

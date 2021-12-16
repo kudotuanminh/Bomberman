@@ -111,26 +111,26 @@ public class Sprites {
     public static Sprite oneal_dead =
             new Sprite(Sprite.DEFAULT_SIZE, 11, 3, SpriteSheet.tiles, 16, 16);
 
-    // Doll
+    // Dall
     //
-    // Contain: doll_left_1, doll_left_2, doll_left_3,
-    // doll_right_1, doll_right_2, doll_right_3,
-    // doll_dead.
-    public static Sprite doll_left_1 =
+    // Contain: dall_left_1, dall_left_2, dall_left_3,
+    // dall_right_1, dall_right_2, dall_right_3,
+    // dall_dead.
+    public static Sprite dall_left_1 =
             new Sprite(Sprite.DEFAULT_SIZE, 13, 0, SpriteSheet.tiles, 16, 16);
-    public static Sprite doll_left_2 =
+    public static Sprite dall_left_2 =
             new Sprite(Sprite.DEFAULT_SIZE, 13, 1, SpriteSheet.tiles, 16, 16);
-    public static Sprite doll_left_3 =
+    public static Sprite dall_left_3 =
             new Sprite(Sprite.DEFAULT_SIZE, 13, 2, SpriteSheet.tiles, 16, 16);
 
-    public static Sprite doll_right_1 =
+    public static Sprite dall_right_1 =
             new Sprite(Sprite.DEFAULT_SIZE, 14, 0, SpriteSheet.tiles, 16, 16);
-    public static Sprite doll_right_2 =
+    public static Sprite dall_right_2 =
             new Sprite(Sprite.DEFAULT_SIZE, 14, 1, SpriteSheet.tiles, 16, 16);
-    public static Sprite doll_right_3 =
+    public static Sprite dall_right_3 =
             new Sprite(Sprite.DEFAULT_SIZE, 14, 2, SpriteSheet.tiles, 16, 16);
 
-    public static Sprite doll_dead =
+    public static Sprite dall_dead =
             new Sprite(Sprite.DEFAULT_SIZE, 13, 3, SpriteSheet.tiles, 16, 16);
 
     // Minvo

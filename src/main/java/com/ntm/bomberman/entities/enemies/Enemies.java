@@ -2,7 +2,6 @@ package com.ntm.bomberman.entities.enemies;
 
 import java.util.Random;
 import com.ntm.bomberman.entities.MovingEntity;
-import com.ntm.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
 /** Held logics for enemies in the game. */
@@ -21,7 +20,6 @@ public abstract class Enemies extends MovingEntity {
 
     public Enemies(int x, int y, Image img) {
         super(x, y, img);
-        speed = Sprite.SCALED_SIZE;
     }
 
     protected int randomDirection() {

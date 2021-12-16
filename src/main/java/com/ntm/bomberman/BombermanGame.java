@@ -136,58 +136,63 @@ public class BombermanGame extends Application {
             }
             for (int i = 0; i < line.length(); i++) {
                 switch (line.charAt(i)) {
-                    case '*' -> { // brick
+                    case '*': // brick
                         entities.add(new Brick(i, rowCount,
                                 Sprites.brick.getFxImage()));
-                    }
-                    case 'x' -> { // portal
+                        break;
+                    case 'x':// portal
                         portal = new Portal(i, rowCount,
                                 Sprites.portal.getFxImage());
                         staticEntities.add(portal);
                         entities.add(new Brick(i, rowCount,
                                 Sprites.brick.getFxImage()));
-                    }
+                        break;
 
-                    case 'b' -> { // bombItem
+                    case 'b': // bombItem
                         items.add(new BombItems(i, rowCount,
                                 Sprites.powerup_bombs.getFxImage()));
                         entities.add(new Brick(i, rowCount,
                                 Sprites.brick.getFxImage()));
-                    }
-                    case 'f' -> { // flameItem
+                        break;
+                    case 'f':// flameItem
                         items.add(new FlameItems(i, rowCount,
                                 Sprites.powerup_flames.getFxImage()));
                         entities.add(new Brick(i, rowCount,
                                 Sprites.brick.getFxImage()));
-                    }
-                    case 's' -> { // speedItem
+                        break;
+                    case 's':// speedItem
                         items.add(new SpeedItems(i, rowCount,
                                 Sprites.powerup_speed.getFxImage()));
                         entities.add(new Brick(i, rowCount,
                                 Sprites.brick.getFxImage()));
-                    }
+                        break;
 
-                    case 'p' -> { // Bomberman
+                    case 'p': // Bomberman
                         bomberman = new Bomber(i, rowCount,
                                 Sprites.player_right.getFxImage());
                         entities.add(bomberman);
-                    }
-                    case '1' -> { // Ballom
+                        break;
+
+                    case '1': // Ballom
                         enemies.add(new Ballom(i, rowCount,
                                 Sprites.ballom_left_1.getFxImage()));
-                    }
-                    case '2' -> { // Oneal
+                        break;
+                    case '2': // Oneal
                         enemies.add(new Oneal(i, rowCount,
                                 Sprites.oneal_left_1.getFxImage()));
-                    }
-                    case '3' -> { // Ovape
+                        break;
+                    case '3': // Ovape
                         enemies.add(new Ovape(i, rowCount,
-                                Sprites.ovape_dead.getFxImage()));
-                    }
-                    case '4' -> { // Doll
-                        enemies.add(new Doll(i, rowCount,
-                                Sprites.ovape_dead.getFxImage()));
-                    }
+                                Sprites.ovape_left_1.getFxImage()));
+                        break;
+                    case '4':// Dall
+                        enemies.add(new Dall(i, rowCount,
+                                Sprites.dall_left_1.getFxImage()));
+                        break;
+                    case '5': // Kondoria
+                        enemies.add(new Kondoria(i, rowCount,
+                                Sprites.kondoria_left_1.getFxImage()));
+                        break;
                 }
             }
 
@@ -221,6 +226,7 @@ public class BombermanGame extends Application {
             Entity enemy = enemies.get(i);
             enemy.update();
             if (enemy.isRemoved()) {
+                Sound.play(Sound.enemy_died);
                 enemies.remove(i);
             }
         }
@@ -228,6 +234,7 @@ public class BombermanGame extends Application {
             Entity item = items.get(i);
             item.update();
             if (item.isRemoved()) {
+                Sound.play(Sound.item);
                 items.remove(i);
             }
         }

@@ -10,9 +10,9 @@ public class Ovape extends Enemies {
     /**
      * Constructor function that takes 2 integers and an image.
      *
-     * @param x - x coordinate of the oneal.
-     * @param y - y coordinate of the oneal.
-     * @param img - image of the oneal.
+     * @param x - x coordinate of the ovape.
+     * @param y - y coordinate of the ovape.
+     * @param img - image of the ovape.
      */
     public Ovape(int x, int y, Image img) {
         super(x, y, img);
@@ -32,7 +32,7 @@ public class Ovape extends Enemies {
     private void handleMove() {
         direction = this.randomDirection();
         switch (direction) {
-            case 0: // right
+            case 0:// right
                 if (isCanMove(x + speed, y)) {
                     x += speed;
                     img = Sprites.ovape_right_1.getFxImage();
@@ -61,12 +61,8 @@ public class Ovape extends Enemies {
 
     private boolean isCanMove(int x, int y) {
         Entity entity = BombermanGame.getEntity(x, y);
-        if (entity instanceof Enemies)
-            return true;
         if (entity instanceof Brick)
             return true;
-        if (entity == null)
-            return false;
         return this.collide(entity);
     }
 }
