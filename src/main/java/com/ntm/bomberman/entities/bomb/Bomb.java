@@ -74,36 +74,48 @@ public class Bomb extends AnimatedEntity {
 
             if (!leftWalled) {
                 entity_left = BombermanGame.getEntity(xLeft, y);
+                if (entity_left instanceof Wall) {
+                    leftWalled = true;
+                } else {
+                    entities_left.add(entity_left);
+                    if (entity_left instanceof Brick) {
+                        leftWalled = true;
+                    }
+                }
             }
             if (!rightWalled) {
                 entity_right = BombermanGame.getEntity(xRight, y);
+                if (entity_right instanceof Wall) {
+                    rightWalled = true;
+
+                } else {
+                    entities_right.add(entity_right);
+                    if (entity_right instanceof Brick) {
+                        rightWalled = true;
+                    }
+                }
             }
             if (!topWalled) {
                 entity_top = BombermanGame.getEntity(x, yTop);
+                if (entity_top instanceof Wall) {
+                    topWalled = true;
+                } else {
+                    entities_top.add(entity_top);
+                    if (entity_top instanceof Brick) {
+                        topWalled = true;
+                    }
+                }
             }
             if (!bottomWalled) {
                 entity_bottom = BombermanGame.getEntity(x, yBottom);
-            }
-
-            if (!(entity_left instanceof Wall)) {
-                entities_left.add(entity_left);
-            } else {
-                leftWalled = true;
-            }
-            if (!(entity_right instanceof Wall)) {
-                entities_right.add(entity_right);
-            } else {
-                rightWalled = true;
-            }
-            if (!(entity_top instanceof Wall)) {
-                entities_top.add(entity_top);
-            } else {
-                topWalled = true;
-            }
-            if (!(entity_bottom instanceof Wall)) {
-                entities_bottom.add(entity_bottom);
-            } else {
-                bottomWalled = true;
+                if (entity_bottom instanceof Wall) {
+                    bottomWalled = true;
+                } else {
+                    entities_bottom.add(entity_bottom);
+                    if (entity_bottom instanceof Brick) {
+                        bottomWalled = true;
+                    }
+                }
             }
         }
     }

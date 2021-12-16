@@ -81,8 +81,9 @@ public class Bomber extends MovingEntity {
 
     @Override
     public void remove() {
-        super.remove();
+        img = Sprites.player_dead_1.getFxImage();
         Sound.play(Sound.bomber_died);
+        super.remove();
     }
 
     public void setDirection(Direction direction) {

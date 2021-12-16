@@ -172,6 +172,7 @@ public class BombermanGame extends Application {
                                 Sprites.player_right.getFxImage());
                         entities.add(bomberman);
                     }
+
                     case '1' -> { // Ballom
                         enemies.add(new Ballom(i, rowCount,
                                 Sprites.ballom_left_1.getFxImage()));
@@ -182,11 +183,15 @@ public class BombermanGame extends Application {
                     }
                     case '3' -> { // Ovape
                         enemies.add(new Ovape(i, rowCount,
-                                Sprites.ovape_dead.getFxImage()));
+                                Sprites.ovape_left_1.getFxImage()));
                     }
-                    case '4' -> { // Doll
-                        enemies.add(new Doll(i, rowCount,
-                                Sprites.ovape_dead.getFxImage()));
+                    case '4' -> { // Dall
+                        enemies.add(new Dall(i, rowCount,
+                                Sprites.dall_left_1.getFxImage()));
+                    }
+                    case '5' -> { // Kondoria
+                        enemies.add(new Kondoria(i, rowCount,
+                                Sprites.kondoria_left_1.getFxImage()));
                     }
                 }
             }
@@ -221,6 +226,7 @@ public class BombermanGame extends Application {
             Entity enemy = enemies.get(i);
             enemy.update();
             if (enemy.isRemoved()) {
+                Sound.play(Sound.enemy_died);
                 enemies.remove(i);
             }
         }
@@ -228,6 +234,7 @@ public class BombermanGame extends Application {
             Entity item = items.get(i);
             item.update();
             if (item.isRemoved()) {
+                Sound.play(Sound.item);
                 items.remove(i);
             }
         }

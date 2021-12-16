@@ -31,8 +31,11 @@ public class Sound {
             "src/resources/sounds/level_complete.wav";
     public static String stage_theme = "src/resources/sounds/stage_theme.wav";
 
+    public static String item = "src/resources/sounds/item.wav";
+
     public static String bomb_placed = "src/resources/sounds/bomb_placed.wav";
     public static String explosion = "src/resources/sounds/explosion.wav";
 
     public static String bomber_died = "src/resources/sounds/bomber_died.wav";
+    public static String enemy_died = "src/resources/sounds/enemy_died.wav";
 }
