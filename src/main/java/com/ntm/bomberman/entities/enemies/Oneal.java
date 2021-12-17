@@ -37,30 +37,30 @@ public class Oneal extends Enemies {
             direction = this.bestDirection();
         }
         switch (direction) {
-            case 0 -> { // right
+            case 0: // right
                 if (isCanMove(x + speed, y)) {
                     x += speed;
                     img = Sprites.oneal_right_1.getFxImage();
                 }
-            }
-            case 1 -> { // left
+                break;
+            case 1: // left
                 if (isCanMove(x - speed, y)) {
                     x -= speed;
                     img = Sprites.oneal_left_1.getFxImage();
                 }
-            }
-            case 2 -> { // up
+                break;
+            case 2: // up
                 if (isCanMove(x, y - speed)) {
                     y -= speed;
                     img = Sprites.oneal_left_1.getFxImage();
                 }
-            }
-            case 3 -> { // down
+                break;
+            case 3: // down
                 if (isCanMove(x, y + speed)) {
                     y += speed;
                     img = Sprites.oneal_right_1.getFxImage();
                 }
-            }
+                break;
         }
     }
 

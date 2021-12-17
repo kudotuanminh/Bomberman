@@ -27,34 +27,34 @@ public class Dall extends Enemies {
         int upAndDown = random.nextInt(7);
         if (upAndDown < 6) {
             switch (direction) {
-                case 0 -> { // right
+                case 0: // right
                     if (isCanMove(x + speed, y)) {
                         x += speed;
                         img = Sprites.dall_right_1.getFxImage();
                     }
-                }
-                case 1 -> { // left
+                    break;
+                case 1: // left
                     if (isCanMove(x - speed, y)) {
                         x -= speed;
                         img = Sprites.dall_left_1.getFxImage();
                     }
-                }
+                    break;
             }
         } else {
 
             switch (direction) {
-                case 0 -> { // up
+                case 0: // up
                     if (isCanMove(x, y - speed)) {
                         y -= speed;
                         img = Sprites.dall_left_2.getFxImage();
                     }
-                }
-                case 1 -> { // down
+                    break;
+                case 1: // down
                     if (isCanMove(x, y + speed)) {
                         y += speed;
                         img = Sprites.dall_right_2.getFxImage();
                     }
-                }
+                    break;
             }
         }
     }
