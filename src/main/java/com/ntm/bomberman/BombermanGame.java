@@ -1,29 +1,22 @@
 package com.ntm.bomberman;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import com.ntm.bomberman.gui.ButtonGame;
-import com.ntm.bomberman.gui.LabelGame;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import com.ntm.bomberman.sound.Sound;
 import javafx.geometry.Insets;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.canvas.*;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 
+import com.ntm.bomberman.gui.*;
+import com.ntm.bomberman.sound.Sound;
 import com.ntm.bomberman.input.Keyboard;
 import com.ntm.bomberman.graphics.*;
 import com.ntm.bomberman.entities.*;
@@ -34,16 +27,17 @@ import com.ntm.bomberman.entities.items.*;
 public class BombermanGame extends Application {
     public static int WIDTH = 31;
     public int HEIGHT = 13;
-    Scene scene1,scene2;
+    Scene scene1, scene2;
 
     private GraphicsContext gc;
     private Canvas canvas;
 
-    private LabelGame caption;
-    private ButtonGame nextLevel;
-    private ButtonGame playAgain;
+    // private LabelGame caption;
+    // private ButtonGame nextLevel;
+    // private ButtonGame playAgain;
 
-    private boolean soundDead = false;
+    // private boolean soundDead = false;
+
     private static List<Entity> staticEntities = new ArrayList<>();
     private static List<Entity> entities = new ArrayList<>();
     private static List<Entity> items = new ArrayList<>();
@@ -64,35 +58,36 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         window = stage;
-        InputStream input = getClass().getResourceAsStream("/resources/Image/1.png");
-        Image image = new Image(input);
-        ImageView imageView = new ImageView(image);
+        ImageView imageView = new ImageView(
+                new Image(new File("src/resources/images/banner.png").toURI()
+                        .toString()));
+        imageView.setFitHeight(350);
+        imageView.setFitWidth(1050);
 
-        InputStream input2 = getClass().getResourceAsStream("/resources/Image/play_button.jpg");
-        Image image2 = new Image(input2);
-        ImageView imageView2 = new ImageView(image2);
+        ImageView imageView2 = new ImageView(
+                new Image(new File("src/resources/images/play_button.jpg")
+                        .toURI().toString()));
         imageView2.setFitHeight(250);
         imageView2.setFitWidth(1035);
 
         Label label = new Label("BOMBERMAN");
-        imageView.setFitHeight(350);
-        imageView.setFitWidth(1050);
         label.setGraphic(imageView);
 
         FlowPane root1 = new FlowPane();
         root1.setPadding(new Insets(10));
         root1.getChildren().add(label);
 
-        Button button1 = new Button("",imageView2);
+        Button button1 = new Button("", imageView2);
         button1.setOnAction(event -> {
             window.setScene(scene2);
         });
         VBox layout1 = new VBox();
-        layout1.getChildren().addAll(label,button1);
+        layout1.getChildren().addAll(label, root1, button1);
 
-        scene1 = new Scene(layout1 ,1050,660);
+        scene1 = new Scene(layout1, 1050, 620);
 
-        layout1.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        layout1.setBackground(new Background(new BackgroundFill(Color.BLACK,
+                CornerRadii.EMPTY, Insets.EMPTY)));
 
         VBox root = new VBox();
 
@@ -160,7 +155,7 @@ public class BombermanGame extends Application {
         BufferedReader fileReader = new BufferedReader(new InputStreamReader(
                 new FileInputStream(
                         "./src/resources/levels/Level" + level + ".txt"),
-                StandardCharsets.UTF_8));
+                "UTF-8"));
 
         String line;
         line = fileReader.readLine();
