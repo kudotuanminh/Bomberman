@@ -15,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 
-import com.ntm.bomberman.gui.*;
 import com.ntm.bomberman.sound.Sound;
 import com.ntm.bomberman.input.Keyboard;
 import com.ntm.bomberman.graphics.*;
@@ -58,15 +57,15 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         window = stage;
-        ImageView imageView = new ImageView(
-                new Image(new File("src/resources/images/banner.png").toURI()
-                        .toString()));
+        ImageView imageView =
+                new ImageView(new Image(ClassLoader.getSystemClassLoader()
+                        .getResource("images/banner.png").toString()));
         imageView.setFitHeight(350);
         imageView.setFitWidth(1050);
 
-        ImageView imageView2 = new ImageView(
-                new Image(new File("src/resources/images/play_button.jpg")
-                        .toURI().toString()));
+        ImageView imageView2 =
+                new ImageView(new Image(ClassLoader.getSystemClassLoader()
+                        .getResource("images/play_button.jpg").toString()));
         imageView2.setFitHeight(250);
         imageView2.setFitWidth(1035);
 
@@ -80,6 +79,7 @@ public class BombermanGame extends Application {
         Button button1 = new Button("", imageView2);
         button1.setOnAction(event -> {
             window.setScene(scene2);
+            Sound.play(Sound.stage_theme);
         });
         VBox layout1 = new VBox();
         layout1.getChildren().addAll(label, root1, button1);
@@ -138,7 +138,6 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        Sound.play(Sound.stage_theme);
         createMap();
     }
 
@@ -152,10 +151,9 @@ public class BombermanGame extends Application {
         enemies.clear();
         canvas.setDisable(false);
 
-        BufferedReader fileReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(
-                        "./src/resources/levels/Level" + level + ".txt"),
-                "UTF-8"));
+        BufferedReader fileReader = new BufferedReader(
+                new InputStreamReader(this.getClass().getResourceAsStream(
+                        "/levels/Level" + level + ".txt")));
 
         String line;
         line = fileReader.readLine();
